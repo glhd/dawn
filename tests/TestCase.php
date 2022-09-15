@@ -2,7 +2,7 @@
 
 namespace Glhd\Dawn\Tests;
 
-use Glhd\Dawn\Support\PackageServiceProvider;
+use Glhd\Dawn\Support\DawnServiceProvider;
 use Illuminate\Container\Container;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -11,7 +11,7 @@ abstract class TestCase extends Orchestra
 	protected function getPackageProviders($app)
 	{
 		return [
-			PackageServiceProvider::class,
+			DawnServiceProvider::class,
 		];
 	}
 	

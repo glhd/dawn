@@ -31,10 +31,7 @@
     </a>
 </div>
 
-# dawn
-
-Please replace `glhd/dawn` with the package name in this file, 
-the change log, and the `composer.json` file before continuing.
+# Dawn
 
 ## Installation
 

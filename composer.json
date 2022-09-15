@@ -41,7 +41,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Glhd\\Dawn\\Support\\PackageServiceProvider"
+        "Glhd\\Dawn\\Support\\DawnServiceProvider"
       ]
     }
   },
