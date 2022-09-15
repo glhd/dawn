@@ -1,8 +1,8 @@
 <?php
 
-namespace Glhd\LaravelPackageTemplate\Tests;
+namespace Glhd\Dawn\Tests;
 
-use Glhd\LaravelPackageTemplate\Support\PackageServiceProvider;
+use Glhd\Dawn\Support\PackageServiceProvider;
 use Illuminate\Container\Container;
 use Orchestra\Testbench\TestCase as Orchestra;
 

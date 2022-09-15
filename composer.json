@@ -1,5 +1,5 @@
 {
-  "name": "glhd/laravel-package-template",
+  "name": "glhd/dawn",
   "description": "",
   "keywords": [
     "laravel"
@@ -23,7 +23,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Glhd\\LaravelPackageTemplate\\": "src/"
+      "Glhd\\Dawn\\": "src/"
     }
   },
   "autoload-dev": {
@@ -31,7 +31,7 @@
       "tests/TestCase.php"
     ],
     "psr-4": {
-      "Glhd\\LaravelPackageTemplate\\Tests\\": "tests/"
+      "Glhd\\Dawn\\Tests\\": "tests/"
     }
   },
   "scripts": {
@@ -41,7 +41,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Glhd\\LaravelPackageTemplate\\Support\\PackageServiceProvider"
+        "Glhd\\Dawn\\Support\\PackageServiceProvider"
       ]
     }
   },
