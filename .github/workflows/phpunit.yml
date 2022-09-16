@@ -34,6 +34,9 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, bcmath, intl, iconv
           tools: composer:v2
 
+      - name: Setup Chrome Driver
+        uses: nanasess/setup-chromedriver@v1
+
       - name: Register composer cache directory
         id: composer-cache-files-dir
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
