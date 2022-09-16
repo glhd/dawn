@@ -3,11 +3,12 @@
 namespace Glhd\Dawn\Browser;
 
 use Closure;
+use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Glhd\Dawn\Support\ElementResolver;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Glhd\Dawn\Support\ElementResolver;
 
 /**
  * @mixin RemoteWebDriver
@@ -71,6 +72,21 @@ class BrowserManager
 			return $connect;
 		}
 		
-		return fn() => RemoteWebDriver::create($connect, DesiredCapabilities::chrome());
+		return function() use ($connect) {
+			$capabilities = DesiredCapabilities::chrome();
+			
+			if (config('dawn.driver.headless', true)) {
+				$capabilities->setCapability(
+					ChromeOptions::CAPABILITY,
+					(new ChromeOptions())->addArguments([
+						'--headless',
+						'--disable-gpu',
+						'--window-size=1920,1080',
+					])
+				);
+			}
+			
+			return RemoteWebDriver::create($connect, $capabilities);
+		};
 	}
 }

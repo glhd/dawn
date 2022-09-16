@@ -25,6 +25,7 @@ return [
 	'driver' => [
 		'local' => true,
 		'url' => 'http://localhost:9515',
+		'headless' => false,
 	],
 	
 	/*
