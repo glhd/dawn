@@ -2,8 +2,8 @@
 
 namespace Glhd\Dawn\Http;
 
+use Glhd\Dawn\Http\Relays\LocalHttpCommandRelay;
 use Glhd\Dawn\Support\BackgroundProcess;
-use Glhd\Dawn\Support\LocalHttpCommandRelay;
 use React\EventLoop\LoopInterface;
 use React\Stream\ReadableStreamInterface;
 use React\Stream\WritableStreamInterface;

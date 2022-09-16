@@ -3,7 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>Dawn</title>
-	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="/_dawn/alpine.js"></script>
+	<link href="/_dawn/tailwind.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-100 font-sans antialiased">
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

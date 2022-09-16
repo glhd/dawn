@@ -4,6 +4,8 @@ namespace Glhd\Dawn\Tests;
 
 use Glhd\Dawn\Providers\DawnServiceProvider;
 use Glhd\Dawn\RunsBrowserTests;
+use Glhd\Dawn\Support\Facades\Dawn;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -18,6 +20,9 @@ abstract class TestCase extends Orchestra
 		$this->setUpRunsBrowserTests();
 		
 		View::getFinder()->addLocation(__DIR__.'/views');
+		
+		Route::get('/_dawn/alpine.js', fn() => response(file_get_contents(__DIR__.'/resources/alpine.js'), 200, ['Content-Type' => 'application/javascript']));
+		Route::get('/_dawn/tailwind.css', fn() => response(file_get_contents(__DIR__.'/resources/tailwind.css'), 200, ['Content-Type' => 'text/css']));
 		
 		// This forces the testbench binary to load our service provider on the CLI
 		file_put_contents(base_path('testbench.yaml'), "providers:\n  - ".DawnServiceProvider::class);

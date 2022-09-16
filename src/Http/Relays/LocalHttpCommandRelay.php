@@ -1,14 +1,14 @@
 <?php
 
-namespace Glhd\Dawn\Support;
+namespace Glhd\Dawn\Http\Relays;
 
 use Exception;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Glhd\Dawn\Concerns\SendsAndReceivesCommands;
 use Glhd\Dawn\Http\Commands\HandleWebRequest;
 use Glhd\Dawn\IO\CommandIO;
 use Glhd\Dawn\IO\Commands\ThrowException;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
