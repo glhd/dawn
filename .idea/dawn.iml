@@ -119,6 +119,31 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/commonmark" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/flysystem" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nunomaduro/termwind" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/fruitcake/php-cors" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/mailer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-webdriver/webdriver" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/message-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nyholm/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/fig/http-message-util" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ringcentral/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/dns" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/socket" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/promise" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/promise-stream" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/http" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/promise-timer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/stream" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/event-loop" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/evenement/evenement" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/psr-http-message-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/filp/whoops" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/sanctum" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nunomaduro/collision" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/flare-client-php" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/ignition" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-ignition" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

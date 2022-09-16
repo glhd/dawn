@@ -3,5 +3,10 @@
   <component name="LaravelIdeaMainSettings">
     <option name="frameworkFound" value="true" />
     <option name="moduleSystemName" value="package" />
+    <option name="views">
+      <LaravelViews>
+        <option name="defaultViewsPath" value="tests/views" />
+      </LaravelViews>
+    </option>
   </component>
 </project>
