@@ -29,6 +29,9 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, bcmath, intl, iconv
           tools: composer:v2
 
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@latest
+
       - name: Setup Chrome Driver
         uses: nanasess/setup-chromedriver@v1
 
