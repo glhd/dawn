@@ -2,19 +2,19 @@
 
 namespace Glhd\Dawn\Providers;
 
+use Glhd\Dawn\Browser;
+use Glhd\Dawn\Browser\RemoteWebDriverBroker;
+use Glhd\Dawn\Browser\SeleniumDriverProcess;
 use Glhd\Dawn\Console\Commands\DriveCommand;
 use Glhd\Dawn\Console\Commands\GenerateCommandHelpersCommand;
 use Glhd\Dawn\Console\Commands\ServeCommand;
+use Glhd\Dawn\Http\WebServerBroker;
+use Glhd\Dawn\Support\Debugger;
+use Glhd\Dawn\Support\ProcessManager;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Glhd\Dawn\Browser;
-use Glhd\Dawn\Browser\RemoteWebDriverBroker;
-use Glhd\Dawn\Browser\SeleniumDriverProcess;
-use Glhd\Dawn\Http\WebServerBroker;
-use Glhd\Dawn\Support\Debugger;
-use Glhd\Dawn\Support\ProcessManager;
 use React\EventLoop\Loop;
 
 class DawnServiceProvider extends ServiceProvider
@@ -38,7 +38,7 @@ class DawnServiceProvider extends ServiceProvider
 		$this->app->singleton(WebServerBroker::class, function() {
 			return new WebServerBroker(
 				host: config('dawn.server.host', '127.0.0.1'),
-				port: config('dawn.server.port', 8089),
+				port: config('dawn.server.port') ?? $this->findOpenPort(),
 			);
 		});
 		
@@ -86,6 +86,16 @@ class DawnServiceProvider extends ServiceProvider
 				ServeCommand::class,
 			]);
 		}
+	}
+	
+	protected function findOpenPort(): int
+	{
+		$sock = socket_create_listen(0);
+		
+		socket_getsockname($sock, $addr, $port);
+		socket_close($sock);
+		
+		return $port;
 	}
 	
 	protected function seleniumPort(): int

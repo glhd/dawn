@@ -6,12 +6,13 @@ return [
 	| Web Server
 	|--------------------------------------------------------------------------
 	|
-	| Configure the host and port to relay Dawn requests through.
+	| Configure the host and port to relay Dawn requests through. If you leave
+	| the port as NULL, Dawn will find an open port automatically.
 	|
 	*/
 	'server' => [
 		'host' => '127.0.0.1',
-		'port' => 8089,
+		'port' => null,
 	],
 	
 	/*
@@ -26,7 +27,7 @@ return [
 		'url' => 'http://localhost:9515',
 		'window' => '1920,1080',
 		'headless' => false,
-		'sandbox' => ! env('CI', false),
+		'sandbox' => null === env('CI'),
 	],
 	
 	/*
