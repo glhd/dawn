@@ -24,7 +24,6 @@ class BrowserTest extends TestCase
 		// $this->actingAs($user);
 		
 		$this->openBrowser()
-			->resize(1280, 720)
 			->visit('/')
 			->assertSeeIn('@content', 'Hello')
 			->assertHasCookie('Foo', $expected)
@@ -36,7 +35,6 @@ class BrowserTest extends TestCase
 		Route::view('/', 'basic-alpine');
 		
 		$this->openBrowser()
-			->resize(1280, 720)
 			->visit('/')
 			->script('window.greeting = "Hello";')
 			->type('.name', 'Chris')

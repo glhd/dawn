@@ -75,18 +75,31 @@ class BrowserManager
 		return function() use ($connect) {
 			$capabilities = DesiredCapabilities::chrome();
 			
-			if (config('dawn.driver.headless', true)) {
-				$capabilities->setCapability(
-					ChromeOptions::CAPABILITY,
-					(new ChromeOptions())->addArguments([
-						'--headless',
-						'--disable-gpu',
-						'--window-size=1920,1080',
-					])
-				);
+			if (! empty($arguments = $this->defaultChromeArguments())) {
+				$capabilities->setCapability(ChromeOptions::CAPABILITY, (new ChromeOptions())->addArguments($arguments));
 			}
 			
 			return RemoteWebDriver::create($connect, $capabilities);
 		};
+	}
+	
+	protected function defaultChromeArguments(): array
+	{
+		$arguments = [];
+		
+		if (false === config('dawn.browser.sandbox')) {
+			$arguments[] = '--no-sandbox';
+		}
+		
+		if (config('dawn.browser.headless', true)) {
+			$arguments[] = '--headless';
+			$arguments[] = '--disable-gpu';
+		}
+		
+		if ($window = config('dawn.browser.window')) {
+			$arguments[] = '--window-size='.$window;
+		}
+		
+		return $arguments;
 	}
 }

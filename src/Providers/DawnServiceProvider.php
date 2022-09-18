@@ -43,7 +43,7 @@ class DawnServiceProvider extends ServiceProvider
 		});
 		
 		$this->app->singleton(RemoteWebDriverBroker::class, function() {
-			return new RemoteWebDriverBroker(config('dawn.driver.url', 'http://localhost:9515'));
+			return new RemoteWebDriverBroker(config('dawn.browser.url', 'http://localhost:9515'));
 		});
 		
 		$this->app->singleton(SeleniumDriverProcess::class, function() {
@@ -90,7 +90,7 @@ class DawnServiceProvider extends ServiceProvider
 	
 	protected function seleniumPort(): int
 	{
-		$port = parse_url(config('dawn.driver.url', 'http://localhost:9515'), PHP_URL_PORT);
+		$port = parse_url(config('dawn.browser.url', 'http://localhost:9515'), PHP_URL_PORT);
 		
 		if (is_numeric($port)) {
 			return (int) $port;

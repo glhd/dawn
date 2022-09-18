@@ -22,10 +22,11 @@ return [
 	| Configure the Chrome/Selenium WebDriver setup.
 	|
 	*/
-	'driver' => [
-		'local' => true,
+	'browser' => [
 		'url' => 'http://localhost:9515',
+		'window' => '1920,1080',
 		'headless' => false,
+		'sandbox' => ! env('CI', false),
 	],
 	
 	/*
