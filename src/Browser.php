@@ -3,6 +3,7 @@
 namespace Glhd\Dawn;
 
 use Closure;
+use Glhd\Dawn\Browser\Concerns\HasBrowserAssertionAliases;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
@@ -32,6 +33,7 @@ class Browser
 	use ExecutesNavigateCommands;
 	use ExecutesWindowCommands;
 	use HasBrowserCommandAliases;
+	use HasBrowserAssertionAliases;
 	
 	public readonly string $id;
 	

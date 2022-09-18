@@ -1,0 +1,2 @@
+providers:
+  - Glhd\Dawn\Providers\DawnServiceProvider

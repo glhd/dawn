@@ -27,4 +27,67 @@
 
 # Dawn
 
-Coming soon!
+Dawn is an experimental browser-testing library for Laravel. It aims to be mostly compatible with Dusk, 
+but with different trade-offs[^1]. The main benefit of Dawn is that it allows you to write browser tests
+exactly as you write all other feature tests (database transactions, mocks, custom testing routes, etc).
+This generally means that they run faster and with fewer restrictions.
+
+> **Warning**
+> This is a very early release. Some edge-cases have been accounted for. Many have not. Much of the Dusk 
+> API has been implemented, but plenty of methods and assertions are missing.
+
+## Installation
+
+You can install the development release of Dawn via Composer (you'll need PHP 8.1 and Laravel 9):
+
+```shell
+# composer require glhd/dawn:dev-main
+```
+
+You'll also need [chromedriver](https://chromedriver.chromium.org/downloads) installed on your machine.
+
+> **Note**
+> Eventually, Dawn will install a copy of chromedriver for you, just like Dusk. The current
+> implementation has only been tested on MacOS with chromedriver installed via homebrew. YMMV.
+
+## Usage
+
+To use Dawn, add `RunsBrowserTests` to any test case. Then you can call `openBrowser()` to get
+a `Browser` instance to start testing with.
+
+```php
+class MyBrowserTest extends TestCase
+{
+  use RefreshDatabase;
+  use RunsBrowserTests;
+  
+  public function test_can_visit_homepage() 
+  {
+    $this->openBrowser() // <-- this is Dawn
+      ->visit('/')
+      ->assertTitleContains('Home');
+  }
+}
+```
+
+### Dawn API
+
+Dawn aims to have an API that is mostly compatible with [Laravel Dusk](https://laravel.com/docs/9.x/dusk).
+Not all features or assertions are implemented, but for right now you're best using the Dusk documentation
+for reference.
+
+## FAQ
+
+<dl>
+<dt>Does it work on anything other that Chris's Mac?</dt>
+<dd>🤷‍♂️</dd>
+<dt>Will it ever work on Windows?</dt>
+<dd>🤷‍♂️ Probably?</dd>
+<dt>When can I use this?</dt>
+<dd>Fortune favors the brave.</dd>
+<dt>Is this the final API?</dt>
+<dd>Most of the `RunsBrowserTests` is pretty solid. The underlying implementation may change a ton before 1.0.</dd>
+</dl>
+
+[^1]: Dawn is generally easier to use out of the box, but writing custom low-level WebDriver code
+      is trickier due to how Dawn works under the hood.
