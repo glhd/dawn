@@ -89,6 +89,7 @@ class BrowserManager
 		
 		if (false === config('dawn.browser.sandbox')) {
 			$arguments[] = '--no-sandbox';
+			$arguments[] = '--disable-dev-shm-usage';
 		}
 		
 		if (config('dawn.browser.headless', true)) {
