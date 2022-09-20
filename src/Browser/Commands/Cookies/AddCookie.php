@@ -11,8 +11,6 @@ use Glhd\Dawn\Browser\Commands\BrowserCommand;
 
 class AddCookie extends BrowserCommand
 {
-	public WebDriverBy $by;
-	
 	public function __construct(
 		public string $name,
 		public ?string $value = null,

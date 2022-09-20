@@ -8,7 +8,7 @@ use Glhd\Dawn\Browser\Commands\BrowserCommand;
 class DeleteCookie extends BrowserCommand
 {
 	public function __construct(
-		public string $name
+		public string $name,
 	) {
 	}
 	

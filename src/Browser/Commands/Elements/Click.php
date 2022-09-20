@@ -2,6 +2,7 @@
 
 namespace Glhd\Dawn\Browser\Commands\Elements;
 
+use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Glhd\Dawn\Browser\BrowserManager;
@@ -14,7 +15,9 @@ class Click extends BrowserCommand
 	
 	public function __construct(
 		public WebDriverBy|string $selector,
-		public bool $wait = false
+		public ?string $resolver = null,
+		public WebDriverBy|string|null $parent,
+		public bool $wait = false,
 	) {
 	}
 	
@@ -29,5 +32,13 @@ class Click extends BrowserCommand
 		if ($this->wait) {
 			$manager->wait()->until(WebDriverExpectedCondition::stalenessOf($html));
 		}
+	}
+	
+	protected function findElement(BrowserManager $manager): RemoteWebElement
+	{
+		$parent = $this->parent
+			? $manager->findElement($this->selector($this->parent))
+			: $manager;
+		
 	}
 }

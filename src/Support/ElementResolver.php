@@ -20,6 +20,14 @@ class ElementResolver
 	) {
 	}
 	
+	public function inParent(WebDriverBy|string $selector): static
+	{
+		$resolver = clone $this;
+		$resolver->prefix = $this->toCssSelector($selector);
+		
+		return $resolver;
+	}
+	
 	public function pageElements(array $elements): static
 	{
 		$this->elements = $elements;
