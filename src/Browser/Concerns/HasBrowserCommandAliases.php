@@ -6,6 +6,11 @@ use Facebook\WebDriver\WebDriverBy;
 
 trait HasBrowserCommandAliases
 {
+	public function clickLink(string $text):static
+	{
+		return $this->click(WebDriverBy::linkText($link_text), $wait);
+	}
+	
 	public function check(string|WebDriverBy $selector): static
 	{
 		return $this->checkOrUncheck($selector, true);

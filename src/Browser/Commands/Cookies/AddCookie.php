@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Crypt;
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\Commands\BrowserCommand;
 
-class SetCookie extends BrowserCommand
+class AddCookie extends BrowserCommand
 {
-	public WebDriverBy $by;
-	
 	public function __construct(
 		public string $name,
 		public ?string $value = null,
