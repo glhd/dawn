@@ -16,6 +16,7 @@
     "ext-json": "*",
     "ext-pcntl": "*",
     "ext-sockets": "*",
+    "ext-zip": "*",
     "illuminate/support": "^9.0",
     "nyholm/psr7": "^1.5",
     "php-webdriver/webdriver": "^1.12",
@@ -33,7 +34,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Glhd\\Dawn\\": "src/"
+      "Glhd\\Dawn\\": "src/",
+      "Laravel\\Dusk\\": "dusk/"
     }
   },
   "autoload-dev": {
