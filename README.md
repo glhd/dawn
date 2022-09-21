@@ -76,6 +76,31 @@ Dawn aims to have an API that is mostly compatible with [Laravel Dusk](https://l
 Not all features or assertions are implemented, but for right now you're best using the Dusk documentation
 for reference.
 
+### Dusk API Compatibility
+
+Much of the Dusk API has been implemented, but not all of it.
+
+#### Missing methods:
+
+- `attach()`
+- `pressAndWaitFor()`
+- `drag()`
+- `dragUp()`
+- `dragDown()`
+- `dragLeft()`
+- `dragRight()`
+- `dragOffset()`
+- `moveMouse()`
+- `mouseover()`
+- `clickAtPoint()`
+- `clickAtXPath()`
+- `clickAndHold()`
+- `doubleClick()`
+- `rightClick()`
+- `releaseMouse()`
+
+#### Missing assertions:
+
 ## FAQ
 
 <dl>

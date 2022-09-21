@@ -37,11 +37,13 @@ class Select extends BrowserCommand
 	
 	protected function clickMatchingOptions(Collection $options, bool $multiple = false)
 	{
+		// If we're not passed a value, just click a random item
 		if (null === $this->value) {
 			$options->random()->click();
 			return;
 		}
 		
+		// Otherwise click all (or the first, if not multi-select) matching one
 		foreach ($options as $option) {
 			if (in_array((string) $option->getAttribute('value'), $this->value)) {
 				$option->click();

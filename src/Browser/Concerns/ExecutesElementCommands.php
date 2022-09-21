@@ -6,7 +6,7 @@ use Facebook\WebDriver\WebDriverBy;
 use Glhd\Dawn\Browser\Commands\Elements\CheckOrUncheck;
 use Glhd\Dawn\Browser\Commands\Elements\Clear;
 use Glhd\Dawn\Browser\Commands\Elements\Click;
-use Glhd\Dawn\Browser\Commands\Elements\ClickButton;
+use Glhd\Dawn\Browser\Commands\Elements\ClickRadio;
 use Glhd\Dawn\Browser\Commands\Elements\GetAttribute;
 use Glhd\Dawn\Browser\Commands\Elements\GetText;
 use Glhd\Dawn\Browser\Commands\Elements\GetValue;
@@ -31,14 +31,14 @@ trait ExecutesElementCommands
 		return $this->command(new Clear($selector));
 	}
 	
-	public function click(WebDriverBy|string $selector, bool $wait = false): static
+	public function click(WebDriverBy|string|null $selector, string $resolver = 'findElement', bool $wait = false): static
 	{
-		return $this->command(new Click($selector, $wait));
+		return $this->command(new Click($selector, $resolver, $wait));
 	}
 	
-	public function clickButton(WebDriverBy|string $selector, bool $wait = false): static
+	public function clickRadio(WebDriverBy|string $selector): static
 	{
-		return $this->command(new ClickButton($selector, $wait));
+		return $this->command(new ClickRadio($selector));
 	}
 	
 	/** @return $this|mixed */

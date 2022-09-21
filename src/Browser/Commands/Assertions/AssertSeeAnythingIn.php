@@ -8,15 +8,14 @@ use Glhd\Dawn\Browser\Commands\Concerns\UsesSelectors;
 use Glhd\Dawn\Browser\RemoteWebDriverBroker;
 use PHPUnit\Framework\Assert;
 
-class AssertSeeIn extends BrowserAssertionCommand
+class AssertSeeAnythingIn extends BrowserAssertionCommand
 {
 	use UsesSelectors;
 	
-	public string $haystack;
+	public string $actual;
 	
 	public function __construct(
-		public string|WebDriverBy $selector,
-		public string $needle,
+		public string|WebDriverBy $selector
 	) {
 	}
 	
@@ -24,17 +23,16 @@ class AssertSeeIn extends BrowserAssertionCommand
 	{
 		$element = $manager->resolver->findOrFail($this->selector());
 		
-		$this->haystack = $element->getText();
+		$this->actual = $element->getText();
 	}
 	
 	protected function performAssertions(RemoteWebDriverBroker $broker): void
 	{
 		$selector = $this->selector()->getValue();
 		
-		Assert::assertStringContainsString(
-			$this->needle,
-			$this->haystack,
-			"Did not see expected text [{$this->needle}] within element [{$selector}]."
+		Assert::assertTrue(
+			'' !== $this->actual,
+			"Saw unexpected text [''] within element [{$selector}]."
 		);
 	}
 }

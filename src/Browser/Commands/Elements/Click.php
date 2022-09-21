@@ -2,7 +2,7 @@
 
 namespace Glhd\Dawn\Browser\Commands\Elements;
 
-use Facebook\WebDriver\Remote\RemoteWebElement;
+use Facebook\WebDriver\Interactions\WebDriverActions;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Glhd\Dawn\Browser\BrowserManager;
@@ -14,7 +14,8 @@ class Click extends BrowserCommand
 	use UsesSelectors;
 	
 	public function __construct(
-		public WebDriverBy|string $selector,
+		public WebDriverBy|string|null $selector,
+		public string $resolver = 'findElement',
 		public bool $wait = false,
 	) {
 	}
@@ -25,7 +26,12 @@ class Click extends BrowserCommand
 			$html = $manager->findElement(WebDriverBy::tagName('html'));
 		}
 		
-		$manager->findElement($this->selector())->click();
+		// If we haven't been provided a selector, then just click wherever the mouse happens to be
+		if (null === $this->selector) {
+			(new WebDriverActions($manager->driver))->click()->perform();
+		} else {
+			$manager->{$this->resolver}($this->selector())->click();
+		}
 		
 		if ($this->wait) {
 			$manager->wait()->until(WebDriverExpectedCondition::stalenessOf($html));

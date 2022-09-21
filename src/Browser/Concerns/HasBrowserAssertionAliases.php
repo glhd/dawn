@@ -23,4 +23,14 @@ trait HasBrowserAssertionAliases
 	{
 		return $this->assertCookieMissing($name, decrypt: false);
 	}
+	
+	public function assertSee($text): static
+	{
+		return $this->assertSeeIn('', $text);
+	}
+	
+	public function assertDontSee($text): static
+	{
+		return $this->assertDontSeeIn('', $text);
+	}
 }

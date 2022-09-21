@@ -8,7 +8,17 @@ trait HasBrowserCommandAliases
 {
 	public function clickLink(string $text, bool $wait = false): static
 	{
-		return $this->click(WebDriverBy::linkText($text), $wait);
+		return $this->click(WebDriverBy::linkText($text), wait: $wait);
+	}
+	
+	public function clickButton(string|WebDriverBy $selector, bool $wait = false): static
+	{
+		return $this->click($selector, resolver: 'resolveForButtonPress', wait: $wait);
+	}
+	
+	public function radio(string|WebDriverBy $selector): static
+	{
+		return $this->clickRadio($selector);
 	}
 	
 	public function check(string|WebDriverBy $selector): static

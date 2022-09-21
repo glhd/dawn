@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectTasksOptions">
+    <TaskOptions isEnabled="true">
+      <option name="arguments" value="dawn:generate-command-helpers" />
+      <option name="checkSyntaxErrors" value="true" />
+      <option name="description" />
+      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="fileExtension" value="php" />
+      <option name="immediateSync" value="true" />
+      <option name="name" value="Generate command helpers" />
+      <option name="output" value="$ProjectFileDir$/src/Concerns/*.php" />
+      <option name="outputFilters">
+        <array />
+      </option>
+      <option name="outputFromStdout" value="false" />
+      <option name="program" value="$ProjectFileDir$/vendor/bin/testbench" />
+      <option name="runOnExternalChanges" value="true" />
+      <option name="scopeName" value="Browser Commands" />
+      <option name="trackOnlyRoot" value="false" />
+      <option name="workingDir" value="$ProjectFileDir$" />
+      <envs />
+    </TaskOptions>
+  </component>
+</project>

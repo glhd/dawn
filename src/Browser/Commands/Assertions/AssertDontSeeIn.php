@@ -8,7 +8,7 @@ use Glhd\Dawn\Browser\Commands\Concerns\UsesSelectors;
 use Glhd\Dawn\Browser\RemoteWebDriverBroker;
 use PHPUnit\Framework\Assert;
 
-class AssertSeeIn extends BrowserAssertionCommand
+class AssertDontSeeIn extends BrowserAssertionCommand
 {
 	use UsesSelectors;
 	
@@ -31,10 +31,10 @@ class AssertSeeIn extends BrowserAssertionCommand
 	{
 		$selector = $this->selector()->getValue();
 		
-		Assert::assertStringContainsString(
+		Assert::assertStringNotContainsString(
 			$this->needle,
 			$this->haystack,
-			"Did not see expected text [{$this->needle}] within element [{$selector}]."
+			"Saw unexpected text [{$this->needle}] within element [{$selector}]."
 		);
 	}
 }

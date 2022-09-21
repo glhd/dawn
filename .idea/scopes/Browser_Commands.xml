@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Browser Commands" pattern="file[dawn]:src/Browser/Commands//*&amp;&amp;!file[dawn]:src/Browser/Commands/Concerns//*" />
+</component>

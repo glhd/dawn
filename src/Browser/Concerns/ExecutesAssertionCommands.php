@@ -3,14 +3,20 @@
 namespace Glhd\Dawn\Browser\Concerns;
 
 use Facebook\WebDriver\Cookie;
+use Facebook\WebDriver\WebDriverBy;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertCookieMissing;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertDialogOpened;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertDontSeeIn;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertHasCookie;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertQueryStringHas;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertScript;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertSeeAnythingIn;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertSeeIn;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertSeeNothingIn;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertTitle;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertTitleContains;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertUrlIs;
+use Illuminate\Support\Str;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -30,6 +36,11 @@ trait ExecutesAssertionCommands
 		return $this->command(new AssertDialogOpened($expected));
 	}
 	
+	public function assertDontSeeIn(string|WebDriverBy $selector, string $needle): static
+	{
+		return $this->command(new AssertDontSeeIn($selector, $needle));
+	}
+	
 	public function assertHasCookie(string $name, ?string $expected = null, bool $decrypt = true): static
 	{
 		return $this->command(new AssertHasCookie($name, $expected, $decrypt));
@@ -40,9 +51,24 @@ trait ExecutesAssertionCommands
 		return $this->command(new AssertQueryStringHas($name, $value));
 	}
 	
-	public function assertSeeIn(string $selector, string $expected): static
+	public function assertScript(string $expression, $expected = true): static
 	{
-		return $this->command(new AssertSeeIn($selector, $expected));
+		return $this->command(new AssertScript($expression, $expected));
+	}
+	
+	public function assertSeeAnythingIn(string|WebDriverBy $selector): static
+	{
+		return $this->command(new AssertSeeAnythingIn($selector));
+	}
+	
+	public function assertSeeIn(string|WebDriverBy $selector, string $needle): static
+	{
+		return $this->command(new AssertSeeIn($selector, $needle));
+	}
+	
+	public function assertSeeNothingIn(string|WebDriverBy $selector): static
+	{
+		return $this->command(new AssertSeeNothingIn($selector));
 	}
 	
 	public function assertTitle(string $expected): static
