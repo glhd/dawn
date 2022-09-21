@@ -138,4 +138,33 @@ trait HasBrowserAssertionAliases
 			message: 'Unexpected value [%s] selected for [%s].'
 		);
 	}
+	
+	public function assertSelectHasOptions(WebDriverBy|string $selector, array $options): static
+	{
+		return $this->assertOptionPresence(
+			selector: $selector, 
+			options: $options,
+			message: 'Expected options [%s] for selection field [%s] to be available.',
+		);
+	}
+	
+	public function assertSelectHasOption(WebDriverBy|string $selector, $option): static
+	{
+		return $this->assertSelectHasOptions($selector, [$option]);
+	}
+	
+	public function assertSelectMissingOptions(WebDriverBy|string $selector, array $options): static
+	{
+		return $this->assertOptionPresence(
+			selector: $selector,
+			options: $options,
+			expected: false,
+			message: 'Unexpected options [%s] for selection field [%s].',
+		);
+	}
+	
+	public function assertSelectMissingOption(WebDriverBy|string $selector, $option): static
+	{
+		return $this->assertSelectMissingOptions($selector, [$option]);
+	}
 }

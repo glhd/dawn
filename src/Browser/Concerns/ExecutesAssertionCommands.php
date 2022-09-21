@@ -11,6 +11,7 @@ use Glhd\Dawn\Browser\Commands\Assertions\AssertElementExistence;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertHasCookie;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertInputValue;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertLinkVisibility;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertOptionPresence;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertOptionSelectionState;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertQueryStringHas;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertScript;
@@ -66,6 +67,11 @@ trait ExecutesAssertionCommands
 	public function assertLinkVisibility(string $text, bool $expected = true, bool $partial = false): static
 	{
 		return $this->command(new AssertLinkVisibility($text, $expected, $partial));
+	}
+	
+	public function assertOptionPresence(WebDriverBy|string $selector, array $options, bool $expected = true, string $message = ''): static
+	{
+		return $this->command(new AssertOptionPresence($selector, $options, $expected, $message));
 	}
 	
 	public function assertOptionSelectionState(WebDriverBy|string $selector, $value, bool $expected = true, string $message = ''): static

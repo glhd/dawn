@@ -88,4 +88,9 @@ trait HasBrowserCommandAliases
 	{
 		return $this->clickButton($selector, $wait);
 	}
+	
+	public function selected(WebDriverBy|string $selector, string $value): bool
+	{
+		return $this->getSelected($selector, $value);
+	}
 }

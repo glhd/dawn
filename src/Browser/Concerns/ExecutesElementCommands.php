@@ -8,6 +8,7 @@ use Glhd\Dawn\Browser\Commands\Elements\Clear;
 use Glhd\Dawn\Browser\Commands\Elements\Click;
 use Glhd\Dawn\Browser\Commands\Elements\ClickRadio;
 use Glhd\Dawn\Browser\Commands\Elements\GetAttribute;
+use Glhd\Dawn\Browser\Commands\Elements\GetSelected;
 use Glhd\Dawn\Browser\Commands\Elements\GetText;
 use Glhd\Dawn\Browser\Commands\Elements\GetValue;
 use Glhd\Dawn\Browser\Commands\Elements\Select;
@@ -45,6 +46,11 @@ trait ExecutesElementCommands
 	public function getAttribute(WebDriverBy|string $selector, string $attribute): mixed
 	{
 		return $this->command(new GetAttribute($selector, $attribute));
+	}
+	
+	public function getSelected(WebDriverBy|string $selector, string $value): bool
+	{
+		return $this->command(new GetSelected($selector, $value));
 	}
 	
 	public function getText(WebDriverBy|string $selector): string
