@@ -11,11 +11,13 @@ use Glhd\Dawn\Browser\Commands\Assertions\AssertElementExistence;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertHasCookie;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertInputValue;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertLinkVisibility;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertOptionSelectionState;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertQueryStringHas;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertScript;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertSeeAnythingIn;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertSeeIn;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertSeeNothingIn;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertSelectionState;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertSourceHas;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertSourceMissing;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertTitle;
@@ -66,6 +68,11 @@ trait ExecutesAssertionCommands
 		return $this->command(new AssertLinkVisibility($text, $expected, $partial));
 	}
 	
+	public function assertOptionSelectionState(WebDriverBy|string $selector, $value, bool $expected = true, string $message = ''): static
+	{
+		return $this->command(new AssertOptionSelectionState($selector, $value, $expected, $message));
+	}
+	
 	public function assertQueryStringHas(string $name, $value = null): static
 	{
 		return $this->command(new AssertQueryStringHas($name, $value));
@@ -89,6 +96,11 @@ trait ExecutesAssertionCommands
 	public function assertSeeNothingIn(string|WebDriverBy $selector): static
 	{
 		return $this->command(new AssertSeeNothingIn($selector));
+	}
+	
+	public function assertSelectionState(WebDriverBy|string $selector, $value, bool $expected = true, bool $expect_indeterminate = false, string $resolver = 'findOrFail', string $message = ''): static
+	{
+		return $this->command(new AssertSelectionState($selector, $value, $expected, $expect_indeterminate, $resolver, $message));
 	}
 	
 	public function assertSourceHas(string $needle): static

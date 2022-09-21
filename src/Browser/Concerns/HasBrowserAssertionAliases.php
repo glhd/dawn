@@ -65,4 +65,77 @@ trait HasBrowserAssertionAliases
 			expected: false
 		);
 	}
+	
+	public function assertChecked(WebDriverBy|string $selector, $value = null): static
+	{
+		return $this->assertSelectionState(
+			selector: $selector,
+			value: $value,
+			resolver: 'resolveForChecking',
+			message: 'Expected checkbox [%s] to be checked, but it wasn\'t.'
+		);
+	}
+	
+	public function assertNotChecked(WebDriverBy|string $selector, $value = null): static
+	{
+		return $this->assertSelectionState(
+			selector: $selector,
+			value: $value,
+			expected: false,
+			resolver: 'resolveForChecking',
+			message: 'Checkbox [%s] was unexpectedly checked.'
+		);
+	}
+	
+	public function assertIndeterminate(WebDriverBy|string $selector, $value = null): static
+	{
+		return $this->assertSelectionState(
+			selector: $selector,
+			value: $value,
+			expected: false,
+			expect_indeterminate: true,
+			resolver: 'resolveForChecking',
+			message: 'Checkbox [%s] was not in indeterminate state.'
+		);
+	}
+	
+	public function assertRadioSelected(WebDriverBy|string $selector, $value = null): static
+	{
+		return $this->assertSelectionState(
+			selector: $selector,
+			value: $value,
+			resolver: 'resolveForRadioSelection',
+			message: 'Expected radio [%s] to be selected, but it wasn\'t.'
+		);
+	}
+	
+	public function assertRadioNotSelected(WebDriverBy|string $selector, $value = null): static
+	{
+		return $this->assertSelectionState(
+			selector: $selector,
+			value: $value,
+			expected: false,
+			resolver: 'resolveForRadioSelection',
+			message: 'Radio [%s] was unexpectedly selected.'
+		);
+	}
+	
+	public function assertSelected(WebDriverBy|string $selector, $value): static
+	{
+		return $this->assertOptionSelectionState(
+			selector: $selector, 
+			value: $value,
+			message: 'Expected value [%s] to be selected for [%s], but it wasn\'t.'
+		);
+	}
+	
+	public function assertNotSelected(WebDriverBy|string $selector, $value): static
+	{
+		return $this->assertOptionSelectionState(
+			selector: $selector,
+			value: $value,
+			expected: false,
+			message: 'Unexpected value [%s] selected for [%s].'
+		);
+	}
 }
