@@ -24,6 +24,7 @@ use Glhd\Dawn\Browser\Commands\Assertions\AssertSourceMissing;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertTitle;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertTitleContains;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertUrlIs;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertValue;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Assert;
 
@@ -132,5 +133,10 @@ trait ExecutesAssertionCommands
 	public function assertUrlIs(string $expected): static
 	{
 		return $this->command(new AssertUrlIs($expected));
+	}
+	
+	public function assertValue(WebDriverBy|string $selector, $value, bool $not = false): static
+	{
+		return $this->command(new AssertValue($selector, $value, $not));
 	}
 }

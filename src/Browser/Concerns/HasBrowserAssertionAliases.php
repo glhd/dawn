@@ -167,4 +167,9 @@ trait HasBrowserAssertionAliases
 	{
 		return $this->assertSelectMissingOptions($selector, [$option]);
 	}
+	
+	public function assertValueIsNot(WebDriverBy|string $selector, $value): static
+	{
+		return $this->assertValue($selector, $value, not: true);
+	}
 }
