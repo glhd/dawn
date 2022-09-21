@@ -2,6 +2,8 @@
 
 namespace Glhd\Dawn\Browser\Concerns;
 
+use Facebook\WebDriver\WebDriverBy;
+
 trait HasBrowserAssertionAliases
 {
 	public function assertCookieValue(string $name, $value, bool $decrypt = true): static
@@ -42,5 +44,10 @@ trait HasBrowserAssertionAliases
 	public function assertDontSeeLink($link): static
 	{
 		return $this->assertLinkVisibility($link, expected: false);
+	}
+	
+	public function assertInputValueIsNot(WebDriverBy|string $selector, $value): static
+	{
+		return $this->assertInputValue($selector, $value, not: true);
 	}
 }
