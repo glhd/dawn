@@ -5,9 +5,10 @@ namespace Glhd\Dawn\Browser\Commands;
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\Commands\Concerns\InteractsWithBrowserInstance;
 use Glhd\Dawn\Browser\RemoteWebDriverProcess;
+use Glhd\Dawn\Contracts\BrowserCommand as BrowserCommandContract;
 use Glhd\Dawn\IO\Command;
 
-abstract class BrowserCommand extends Command
+abstract class BrowserCommand extends Command implements BrowserCommandContract
 {
 	use InteractsWithBrowserInstance;
 	

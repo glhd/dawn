@@ -6,9 +6,9 @@ use Facebook\WebDriver\WebDriverBy;
 
 trait HasBrowserCommandAliases
 {
-	public function clickLink(string $text):static
+	public function clickLink(string $text, bool $wait = false): static
 	{
-		return $this->click(WebDriverBy::linkText($link_text), $wait);
+		return $this->click(WebDriverBy::linkText($text), $wait);
 	}
 	
 	public function check(string|WebDriverBy $selector): static
@@ -36,6 +36,11 @@ trait HasBrowserCommandAliases
 		return $this->executeScript($scripts);
 	}
 	
+	public function keys(string|WebDriverBy $selector, ...$keys): static
+	{
+		return $this->sendKeys($selector, $keys);
+	}
+	
 	public function type(WebDriverBy|string $selector, string $keys): static
 	{
 		return $this->sendKeys($selector, $keys, true, 0);
@@ -54,6 +59,14 @@ trait HasBrowserCommandAliases
 	public function appendSlowly(WebDriverBy|string $selector, string $keys, int $pause = 100): static
 	{
 		return $this->sendKeys($selector, $keys, false, $pause);
+	}
+	
+	/** @return $this|mixed */
+	public function value(WebDriverBy|string $selector, $value = null): mixed
+	{
+		return null === $value
+			? $this->getValue($selector)
+			: $this->setValue($selector, $value);
 	}
 	
 	public function quit(): static

@@ -2,10 +2,8 @@
 
 namespace Glhd\Dawn\Browser\Concerns;
 
-use Facebook\WebDriver\WebDriverBy;
 use Glhd\Dawn\Browser\Commands\ExecuteScript;
 use Glhd\Dawn\Browser\Commands\QuitBrowser;
-use Glhd\Dawn\Browser\Commands\SendKeys;
 use Glhd\Dawn\Browser\Commands\TakeScreenshot;
 use Glhd\Dawn\Browser\Commands\Visit;
 use Glhd\Dawn\Browser\Commands\WaitForUrl;
@@ -25,11 +23,6 @@ trait ExecutesBrowserCommands
 	public function quitBrowser(): static
 	{
 		return $this->command(new QuitBrowser());
-	}
-	
-	public function sendKeys(WebDriverBy|string $selector, string $keys, bool $clear_input = false, int $pause = 0): static
-	{
-		return $this->command(new SendKeys($selector, $keys, $clear_input, $pause));
 	}
 	
 	public function takeScreenshot(string $filename): static

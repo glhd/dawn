@@ -93,15 +93,35 @@ class GenerateCommandHelpersCommand extends Command
 		$imports = $this->getImports($source);
 		$imports->push($fqcn);
 		
+		$return_type = $this->getReturnType($source);
+		
 		$parameters = $this->getParameters($source);
 		$function = <<<END_CODE
-			public function {$function_name}({$parameters->arguments}): static
+			public function {$function_name}({$parameters->arguments}): {$return_type}
 			{
 				return \$this->command(new {$classname}({$parameters->calls}));
 			}
 		END_CODE;
 		
+		// Allow "mixed" returns to be fluent
+		if ('mixed' === $return_type) {
+			$function = "\t/** @return \$this|mixed */\n$function";
+		}
+		
 		return [(string) $trait, $imports, $function_name, $function];
+	}
+	
+	protected function getReturnType(string $source): string
+	{
+		$return_type_pattern = '/function executeWithBrowser\([^)]*\):\s+(?P<return_type>.+)\s*$/m';
+		
+		if (preg_match($return_type_pattern, $source, $matches)) {
+			return trim($matches['return_type']);
+		}
+		
+		return Str::contains($source, 'implements ValueCommand')
+			? 'mixed'
+			: 'static';
 	}
 	
 	protected function getParameters(string $source): stdClass

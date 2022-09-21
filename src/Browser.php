@@ -4,6 +4,8 @@ namespace Glhd\Dawn;
 
 use Closure;
 use Glhd\Dawn\Browser\Concerns\HasBrowserAssertionAliases;
+use Glhd\Dawn\Contracts\BrowserCommand;
+use Glhd\Dawn\Contracts\ValueCommand;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
@@ -72,14 +74,19 @@ class Browser
 		return $this;
 	}
 	
-	protected function command(Command $command): static
+	/**
+	 * @return $this|mixed
+	 */
+	protected function command(Command $command): mixed
 	{
-		if (method_exists($command, 'setBrowser')) {
+		if ($command instanceof BrowserCommand) {
 			$command->setBrowser($this);
 		}
 		
 		$this->last_response = $this->broker->sendCommandAndWaitForResponse($command);
 		
-		return $this;
+		return $command instanceof ValueCommand
+			? $this->last_response
+			: $this;
 	}
 }

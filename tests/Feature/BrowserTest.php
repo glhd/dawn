@@ -34,11 +34,20 @@ class BrowserTest extends TestCase
 	{
 		Route::view('/', 'basic-alpine');
 		
-		$this->openBrowser()
+		$browser = $this->openBrowser();
+		
+		$browser
 			->visit('/')
 			->script('window.greeting = "Hello";')
 			->type('.name', 'Chris')
 			->press('.hello')
-			->assertDialogOpened('Hello Chris!');
+			->assertDialogOpened('Hello Chris!')
+			->acceptDialog();
+		
+		$this->assertEquals('Chris', $browser->value('.name'));
+		
+		$browser->value('.name', 'Tim')
+			->press('.hello')
+			->assertDialogOpened('Hello Tim!');
 	}
 }
