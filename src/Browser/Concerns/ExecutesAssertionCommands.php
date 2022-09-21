@@ -13,6 +13,8 @@ use Glhd\Dawn\Browser\Commands\Assertions\AssertScript;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertSeeAnythingIn;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertSeeIn;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertSeeNothingIn;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertSourceHas;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertSourceMissing;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertTitle;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertTitleContains;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertUrlIs;
@@ -69,6 +71,16 @@ trait ExecutesAssertionCommands
 	public function assertSeeNothingIn(string|WebDriverBy $selector): static
 	{
 		return $this->command(new AssertSeeNothingIn($selector));
+	}
+	
+	public function assertSourceHas(string $needle): static
+	{
+		return $this->command(new AssertSourceHas($needle));
+	}
+	
+	public function assertSourceMissing(string $needle): static
+	{
+		return $this->command(new AssertSourceMissing($needle));
 	}
 	
 	public function assertTitle(string $expected): static
