@@ -33,4 +33,14 @@ trait HasBrowserAssertionAliases
 	{
 		return $this->assertDontSeeIn('', $text);
 	}
+	
+	public function assertSeeLink($link): static
+	{
+		return $this->assertLinkVisibility($link, expected: true);
+	}
+	
+	public function assertDontSeeLink($link): static
+	{
+		return $this->assertLinkVisibility($link, expected: false);
+	}
 }

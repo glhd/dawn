@@ -8,6 +8,7 @@ use Glhd\Dawn\Browser\Commands\Assertions\AssertCookieMissing;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertDialogOpened;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertDontSeeIn;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertHasCookie;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertLinkVisibility;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertQueryStringHas;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertScript;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertSeeAnythingIn;
@@ -46,6 +47,11 @@ trait ExecutesAssertionCommands
 	public function assertHasCookie(string $name, ?string $expected = null, bool $decrypt = true): static
 	{
 		return $this->command(new AssertHasCookie($name, $expected, $decrypt));
+	}
+	
+	public function assertLinkVisibility(string $text, bool $expected = true, bool $partial = false): static
+	{
+		return $this->command(new AssertLinkVisibility($text, $expected, $partial));
 	}
 	
 	public function assertQueryStringHas(string $name, $value = null): static

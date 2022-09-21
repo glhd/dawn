@@ -24,6 +24,7 @@ abstract class BrowserAssertionCommand extends Command implements BrowserCommand
 		// If we're executing on the web driver, we'll load all the data necessary for running the assertions
 		if ($context instanceof RemoteWebDriverProcess) {
 			try {
+				$context->browser_manager->switchToBrowser($this->browser_id);
 				$this->loadData($context->browser_manager);
 				$context->sendCommand($this);
 				$context->respond($this);

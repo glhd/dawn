@@ -50,4 +50,14 @@ class BrowserTest extends TestCase
 			->press('.hello')
 			->assertDialogOpened('Hello Tim!');
 	}
+	
+	public function test_see_assertions(): void
+	{
+		Route::view('/', 'see');
+		
+		$this->openBrowser()
+			->visit('/')
+			->assertSeeLink('Visible Link')
+			->assertDontSeeLink('Hidden Link');
+	}
 }
