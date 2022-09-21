@@ -7,6 +7,7 @@ use Facebook\WebDriver\WebDriverBy;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertCookieMissing;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertDialogOpened;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertDontSeeIn;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertElementExistence;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertHasCookie;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertInputValue;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertLinkVisibility;
@@ -43,6 +44,11 @@ trait ExecutesAssertionCommands
 	public function assertDontSeeIn(string|WebDriverBy $selector, string $needle): static
 	{
 		return $this->command(new AssertDontSeeIn($selector, $needle));
+	}
+	
+	public function assertElementExistence(WebDriverBy|string $selector, bool $expected = true): static
+	{
+		return $this->command(new AssertElementExistence($selector, $expected));
 	}
 	
 	public function assertHasCookie(string $name, ?string $expected = null, bool $decrypt = true): static
