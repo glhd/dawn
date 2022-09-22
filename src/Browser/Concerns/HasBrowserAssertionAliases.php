@@ -53,36 +53,66 @@ trait HasBrowserAssertionAliases
 	
 	public function assertPresent(WebDriverBy|string $selector): static
 	{
-		return $this->assertElementExistence($selector);
+		return $this->assertElementStatus($selector, expect_exists: true);
 	}
 	
 	public function assertNotPresent(WebDriverBy|string $selector): static
 	{
-		return $this->assertElementExistence($selector, expected: false);
+		return $this->assertElementStatus($selector, expect_exists: false);
 	}
 	
 	public function assertVisible(WebDriverBy|string $selector): static
 	{
-		return $this->assertElementDisplay($selector);
+		return $this->assertElementStatus($selector, expect_displayed: true);
 	}
 	
 	public function assertMissing(WebDriverBy|string $selector): static
 	{
-		return $this->assertElementDisplay($selector, expected: false);
+		return $this->assertElementStatus($selector, expect_displayed: false);
+	}
+	
+	public function assertEnabled(WebDriverBy|string $selector): static
+	{
+		return $this->assertElementStatus($selector, expect_enabled: true);
+	}
+	
+	public function assertDisabled(WebDriverBy|string $selector): static
+	{
+		return $this->assertElementStatus($selector, expect_enabled: false);
+	}
+	
+	public function assertFocused(WebDriverBy|string $selector): static
+	{
+		return $this->assertElementStatus($selector, expect_focused: true);
+	}
+	
+	public function assertNotFocused(WebDriverBy|string $selector): static
+	{
+		return $this->assertElementStatus($selector, expect_focused: false);
+	}
+	
+	public function assertButtonEnabled(WebDriverBy|string $selector): static
+	{
+		return $this->assertElementStatus($selector, resolver: 'resolveForButtonPress', expect_enabled: true);
+	}
+	
+	public function assertButtonDisabled(WebDriverBy|string $selector): static
+	{
+		return $this->assertElementStatus($selector, resolver: 'resolveForButtonPress', expect_enabled: false);
 	}
 	
 	public function assertInputPresent(string $name): static
 	{
-		return $this->assertElementExistence(
+		return $this->assertElementStatus(
 			selector: "input[name='{$name}'], textarea[name='{$name}'], select[name='{$name}']"
 		);
 	}
 	
 	public function assertInputMissing(string $name): static
 	{
-		return $this->assertElementExistence(
-			selector: "input[name='{$name}'], textarea[name='{$name}'], select[name='{$name}']",
-			expected: false
+		return $this->assertElementStatus(
+			selector:"input[name='{$name}'], textarea[name='{$name}'], select[name='{$name}']",
+			expect_exists: false
 		);
 	}
 	
