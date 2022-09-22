@@ -51,6 +51,26 @@ trait HasBrowserAssertionAliases
 		return $this->assertInputValue($selector, $value, not: true);
 	}
 	
+	public function assertPresent(WebDriverBy|string $selector): static
+	{
+		return $this->assertElementExistence($selector);
+	}
+	
+	public function assertNotPresent(WebDriverBy|string $selector): static
+	{
+		return $this->assertElementExistence($selector, expected: false);
+	}
+	
+	public function assertVisible(WebDriverBy|string $selector): static
+	{
+		return $this->assertElementDisplay($selector);
+	}
+	
+	public function assertMissing(WebDriverBy|string $selector): static
+	{
+		return $this->assertElementDisplay($selector, expected: false);
+	}
+	
 	public function assertInputPresent(string $name): static
 	{
 		return $this->assertElementExistence(
@@ -171,5 +191,15 @@ trait HasBrowserAssertionAliases
 	public function assertValueIsNot(WebDriverBy|string $selector, $value): static
 	{
 		return $this->assertValue($selector, $value, not: true);
+	}
+	
+	public function assertAriaAttribute(WebDriverBy|string $selector, string $attribute, $value): static
+	{
+		return $this->assertAttribute($selector, 'aria-'.$attribute, $value);
+	}
+	
+	public function assertDataAttribute(WebDriverBy|string $selector, $attribute, $value): static
+	{
+		return $this->assertAttribute($selector, 'data-'.$attribute, $value);
 	}
 }

@@ -4,9 +4,11 @@ namespace Glhd\Dawn\Browser\Concerns;
 
 use Facebook\WebDriver\Cookie;
 use Facebook\WebDriver\WebDriverBy;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertAttribute;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertCookieMissing;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertDialogOpened;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertDontSeeIn;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertElementDisplay;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertElementExistence;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertHasCookie;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertInputValue;
@@ -35,6 +37,11 @@ use PHPUnit\Framework\Assert;
  */
 trait ExecutesAssertionCommands
 {
+	public function assertAttribute(WebDriverBy|string $selector, string $attribute, $value, bool $not = false, bool $contains = false): static
+	{
+		return $this->command(new AssertAttribute($selector, $attribute, $value, $not, $contains));
+	}
+	
 	public function assertCookieMissing(string $name, bool $decrypt = true): static
 	{
 		return $this->command(new AssertCookieMissing($name, $decrypt));
@@ -48,6 +55,11 @@ trait ExecutesAssertionCommands
 	public function assertDontSeeIn(string|WebDriverBy $selector, string $needle): static
 	{
 		return $this->command(new AssertDontSeeIn($selector, $needle));
+	}
+	
+	public function assertElementDisplay(WebDriverBy|string $selector, bool $expected = true): static
+	{
+		return $this->command(new AssertElementDisplay($selector, $expected));
 	}
 	
 	public function assertElementExistence(WebDriverBy|string $selector, bool $expected = true): static
