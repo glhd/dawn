@@ -232,4 +232,9 @@ trait HasBrowserAssertionAliases
 	{
 		return $this->assertAttribute($selector, 'data-'.$attribute, $value);
 	}
+	
+	public function assertVueIsNot($key, $value, WebDriverBy|string|null $selector = null): static
+	{
+		return $this->assertVue($key, $value, $selector, not: true);
+	}
 }

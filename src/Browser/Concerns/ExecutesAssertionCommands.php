@@ -26,6 +26,7 @@ use Glhd\Dawn\Browser\Commands\Assertions\AssertTitle;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertTitleContains;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertUrlIs;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertValue;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertVue;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Assert;
 
@@ -144,5 +145,10 @@ trait ExecutesAssertionCommands
 	public function assertValue(WebDriverBy|string $selector, $value, bool $not = false): static
 	{
 		return $this->command(new AssertValue($selector, $value, $not));
+	}
+	
+	public function assertVue(string $key, $value, WebDriverBy|string|null $selector = null, bool $not = false): static
+	{
+		return $this->command(new AssertVue($key, $value, $selector, $not));
 	}
 }

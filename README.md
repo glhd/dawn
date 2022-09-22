@@ -80,7 +80,7 @@ for reference.
 
 Much of the Dusk API has been implemented, but not all of it.
 
-#### Missing methods:
+#### Missing methods (may not be exhaustive):
 
 - `attach()`
 - `pressAndWaitFor()`
@@ -99,7 +99,10 @@ Much of the Dusk API has been implemented, but not all of it.
 - `rightClick()`
 - `releaseMouse()`
 
-#### Missing assertions:
+#### Missing assertions (may not be exhaustive):
+
+- `assertVueContains()`
+- `assertVueDoesNotContain()`
 
 ## FAQ
 
