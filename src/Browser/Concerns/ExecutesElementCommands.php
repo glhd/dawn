@@ -32,7 +32,7 @@ trait ExecutesElementCommands
 		return $this->command(new Clear($selector));
 	}
 	
-	public function click(WebDriverBy|string|null $selector, string $resolver = 'findElement', bool $wait = false): static
+	public function click(WebDriverBy|string|null $selector, string $resolver = 'find', bool $wait = false): static
 	{
 		return $this->command(new Click($selector, $resolver, $wait));
 	}

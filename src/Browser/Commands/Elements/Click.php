@@ -15,7 +15,7 @@ class Click extends BrowserCommand
 	
 	public function __construct(
 		public WebDriverBy|string|null $selector,
-		public string $resolver = 'findElement',
+		public string $resolver = 'find',
 		public bool $wait = false,
 	) {
 	}
@@ -30,7 +30,7 @@ class Click extends BrowserCommand
 		if (null === $this->selector) {
 			(new WebDriverActions($manager->driver))->click()->perform();
 		} else {
-			$manager->{$this->resolver}($this->selector())->click();
+			$manager->resolver->{$this->resolver}($this->selector())->click();
 		}
 		
 		if ($this->wait) {
