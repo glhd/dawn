@@ -38,12 +38,14 @@ This generally means that they run faster and with fewer restrictions.
 
 ## Installation
 
+### Install Dawn
 You can install the development release of Dawn via Composer (you'll need PHP 8.1 and Laravel 9):
 
 ```shell
 # composer require glhd/dawn:dev-main
 ```
 
+### Install Chrome Driver globally
 You'll also need [chromedriver](https://chromedriver.chromium.org/downloads) installed on your machine.
 
 > **Note**
@@ -82,6 +84,26 @@ Much of the Dusk API has been implemented, but not all of it.
 
 #### Missing methods (may not be exhaustive):
 
+- `whenAvailable()`
+- `waitFor()`
+- `waitUntilMissing()`
+- `waitUntilMissingText()`
+- `waitForText()`
+- `waitForTextIn()`
+- `waitForLink()`
+- `waitForInput()`
+- `waitForLocation()`
+- `waitForRoute()`
+- `waitUntilEnabled()`
+- `waitUntilDisabled()`
+- `waitUntil()`
+- `waitUntilVue()`
+- `waitUntilVueIsNot()`
+- `waitUntilVueIsNot()`
+- `waitForReload()`
+- `clickAndWaitForReload()`
+- `waitForEvent()`
+- `waitUsing()`
 - `attach()`
 - `pressAndWaitFor()`
 - `drag()`
@@ -103,6 +125,8 @@ Much of the Dusk API has been implemented, but not all of it.
 
 - `assertVueContains()`
 - `assertVueDoesNotContain()`
+- `assertQueryStringHas()`
+- `assertQueryStringMissing()`
 
 ## FAQ
 

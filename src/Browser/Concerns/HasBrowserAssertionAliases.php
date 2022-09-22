@@ -3,6 +3,8 @@
 namespace Glhd\Dawn\Browser\Concerns;
 
 use Facebook\WebDriver\WebDriverBy;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertUrl;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertUrlIs;
 
 trait HasBrowserAssertionAliases
 {
@@ -236,5 +238,75 @@ trait HasBrowserAssertionAliases
 	public function assertVueIsNot($key, $value, WebDriverBy|string|null $selector = null): static
 	{
 		return $this->assertVue($key, $value, $selector, not: true);
+	}
+	
+	public function assertUrlIs(string $expected): static
+	{
+		return $this->assertUrl(expected: $expected);
+	}
+	
+	public function assertSchemeIs(string $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('scheme', '=', $expected));
+	}
+	
+	public function assertSchemeIsNot(string $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('scheme', '!=', $expected));
+	}
+	
+	public function assertHostIs(string $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('host', '=', $expected));
+	}
+	
+	public function assertHostIsNot(string $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('host', '!=', $expected));
+	}
+	
+	public function assertPortIs(string|int $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('port', '=', (string) $expected));
+	}
+	
+	public function assertPortIsNot(string|int $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('port', '!=', (string) $expected));
+	}
+	
+	public function assertPathIs(string $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('path', '=', $expected));
+	}
+	
+	public function assertPathBeginsWith(string $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('path', 'starts_with', $expected));
+	}
+	
+	public function assertPathIsNot(string $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('path', '!=', $expected));
+	}
+	
+	public function assertRouteIs(string $route, $parameters = []): static
+	{
+		return $this->assertPathIs(route($route, $parameters, false));
+	}
+	
+	public function assertFragmentIs(string $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('fragment', '=', $expected));
+	}
+	
+	public function assertFragmentIsNot(string $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('fragment', '!=', $expected));
+	}
+	
+	public function assertFragmentBeginsWith(string $expected): static
+	{
+		return $this->command(AssertUrl::withExpectation('fragment', 'starts_with', $expected));
 	}
 }
