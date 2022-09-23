@@ -3,12 +3,6 @@
 namespace Glhd\Dawn;
 
 use Closure;
-use Glhd\Dawn\Browser\Concerns\HasBrowserAssertionAliases;
-use Glhd\Dawn\Contracts\BrowserCommand;
-use Glhd\Dawn\Contracts\ValueCommand;
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Conditionable;
-use Illuminate\Support\Traits\Macroable;
 use Glhd\Dawn\Browser\Concerns\ExecutesAssertionCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesBrowserCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesCookieCommands;
@@ -17,9 +11,15 @@ use Glhd\Dawn\Browser\Concerns\ExecutesElementCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesMouseCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesNavigateCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesWindowCommands;
+use Glhd\Dawn\Browser\Concerns\HasBrowserAssertionAliases;
 use Glhd\Dawn\Browser\Concerns\HasBrowserCommandAliases;
 use Glhd\Dawn\Browser\RemoteWebDriverBroker;
+use Glhd\Dawn\Contracts\BrowserCommand;
+use Glhd\Dawn\Contracts\ValueCommand;
 use Glhd\Dawn\IO\Command;
+use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
+use Illuminate\Support\Traits\Macroable;
 use React\EventLoop\LoopInterface;
 
 class Browser

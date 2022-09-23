@@ -3,8 +3,8 @@
 namespace Glhd\Dawn\Browser;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Illuminate\Support\Traits\ForwardsCalls;
 use Glhd\Dawn\Support\ElementResolver;
+use Illuminate\Support\Traits\ForwardsCalls;
 
 /**
  * @mixin RemoteWebDriver

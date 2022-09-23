@@ -2,8 +2,8 @@
 
 namespace Glhd\Dawn;
 
-use Illuminate\Support\Collection;
 use Glhd\Dawn\Support\ProcessManager;
+use Illuminate\Support\Collection;
 
 trait RunsBrowserTests
 {

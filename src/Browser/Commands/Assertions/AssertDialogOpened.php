@@ -4,7 +4,6 @@ namespace Glhd\Dawn\Browser\Commands\Assertions;
 
 use Facebook\WebDriver\Exception\NoSuchAlertException;
 use Glhd\Dawn\Browser\BrowserManager;
-use Glhd\Dawn\Browser\Commands\Concerns\UsesSelectors;
 use Glhd\Dawn\Browser\RemoteWebDriverBroker;
 use PHPUnit\Framework\Assert;
 
@@ -28,7 +27,7 @@ class AssertDialogOpened extends BrowserAssertionCommand
 	
 	protected function performAssertions(RemoteWebDriverBroker $broker): void
 	{
-		Assert::assertNotNull($this->actual, "No dialog opened.");
+		Assert::assertNotNull($this->actual, 'No dialog opened.');
 		
 		if ($this->expected) {
 			Assert::assertEquals(

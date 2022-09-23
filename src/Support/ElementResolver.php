@@ -182,7 +182,7 @@ class ElementResolver
 	{
 		$css_mechanisms = ['class name', 'id', 'name', 'tag name'];
 		
-		if ($selector instanceof WebDriverBy && !in_array($selector->getMechanism(), $css_mechanisms)) {
+		if ($selector instanceof WebDriverBy && ! in_array($selector->getMechanism(), $css_mechanisms)) {
 			return $this->driver->findElement($selector);
 		}
 		

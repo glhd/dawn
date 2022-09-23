@@ -4,7 +4,6 @@ namespace Glhd\Dawn\Tests;
 
 use Glhd\Dawn\Providers\DawnServiceProvider;
 use Glhd\Dawn\RunsBrowserTests;
-use Glhd\Dawn\Support\Facades\Dawn;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Orchestra\Testbench\TestCase as Orchestra;

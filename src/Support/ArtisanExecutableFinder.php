@@ -2,7 +2,6 @@
 
 namespace Glhd\Dawn\Support;
 
-use Closure;
 use Illuminate\Support\Facades\App;
 
 class ArtisanExecutableFinder

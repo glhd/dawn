@@ -2,9 +2,9 @@
 
 namespace Glhd\Dawn\Console\Commands;
 
-use Illuminate\Console\Command;
 use Glhd\Dawn\Browser\RemoteWebDriverProcess;
 use Glhd\Dawn\IO\Commands\ThrowException;
+use Illuminate\Console\Command;
 use Throwable;
 
 class DriveCommand extends Command

@@ -2,8 +2,8 @@
 
 namespace Glhd\Dawn\Browser\Commands;
 
-use Illuminate\Support\Collection;
 use Glhd\Dawn\Browser\BrowserManager;
+use Illuminate\Support\Collection;
 
 class ExecuteScript extends BrowserCommand
 {

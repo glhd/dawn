@@ -30,7 +30,7 @@ class AssertInputValue extends BrowserAssertionCommand
 	{
 		$element = $manager->resolver->resolveForTyping($this->selector);
 		
-		return match($element->getTagName()) {
+		return match ($element->getTagName()) {
 			'input', 'textarea' => $element->getAttribute('value'),
 			default => $element->getText(),
 		};
@@ -42,7 +42,7 @@ class AssertInputValue extends BrowserAssertionCommand
 		
 		if ($this->not) {
 			Assert::assertNotEquals(
-				$this->value, 
+				$this->value,
 				$this->actual,
 				"Value [{$this->value}] for the [{$selector}] input should not equal the actual value."
 			);

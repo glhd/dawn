@@ -2,11 +2,11 @@
 
 namespace Glhd\Dawn\Browser\Commands;
 
+use Glhd\Dawn\Browser\BrowserManager;
+use Glhd\Dawn\Http\WebServerBroker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
-use Glhd\Dawn\Browser\BrowserManager;
-use Glhd\Dawn\Http\WebServerBroker;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Visit extends BrowserCommand

@@ -8,7 +8,6 @@ use Glhd\Dawn\Browser\RemoteWebDriverBroker;
 use Glhd\Dawn\Browser\RemoteWebDriverProcess;
 use Glhd\Dawn\Contracts\BrowserCommand;
 use Glhd\Dawn\IO\Command;
-use Glhd\Dawn\IO\Commands\ThrowException;
 use Throwable;
 
 abstract class BrowserAssertionCommand extends Command implements BrowserCommand

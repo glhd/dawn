@@ -19,7 +19,8 @@ class AssertUrl extends BrowserAssertionCommand
 		return (new static())->expect($segment, $operator, $value);
 	}
 	
-	public function __construct(?string $expected = null) {
+	public function __construct(?string $expected = null)
+	{
 		if (null !== $expected) {
 			$this->expect('url', '=', $expected);
 		}

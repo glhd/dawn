@@ -2,13 +2,11 @@
 
 namespace Glhd\Dawn\Browser\Commands\Assertions;
 
-use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\Commands\Concerns\UsesSelectors;
 use Glhd\Dawn\Browser\RemoteWebDriverBroker;
 use PHPUnit\Framework\Assert;
-use PHPUnit\Framework\Assert as PHPUnit;
 
 class AssertAttribute extends BrowserAssertionCommand
 {
@@ -48,7 +46,7 @@ class AssertAttribute extends BrowserAssertionCommand
 	
 	protected function getAssertion(): array
 	{
-		return match([$this->not, $this->contains]) {
+		return match ([$this->not, $this->contains]) {
 			[false, false] => [Assert::assertEquals(...), 'Expected \'%s\' attribute [%s] does not equal actual value [%s].'],
 			[false, true] => [Assert::assertStringContainsString(...), 'Attribute \'%s\' does not contain [%s]. Full attribute value was [%s].'],
 			[true, true] => [Assert::assertStringNotContainsString(...), 'Attribute \'%s\' should not contain [%s].'],

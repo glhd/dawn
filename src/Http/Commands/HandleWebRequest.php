@@ -2,16 +2,15 @@
 
 namespace Glhd\Dawn\Http\Commands;
 
-use Illuminate\Contracts\Http\Kernel as HttpKernel;
-use Illuminate\Http\Request;
 use Glhd\Dawn\Http\Commands\SendWebResponse as ResponseMessage;
 use Glhd\Dawn\Http\WebServerBroker;
 use Glhd\Dawn\IO\Command;
+use Illuminate\Contracts\Http\Kernel as HttpKernel;
+use Illuminate\Http\Request;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class HandleWebRequest extends Command
 {
@@ -32,7 +31,7 @@ class HandleWebRequest extends Command
 			$broker->sendCommand(ResponseMessage::from($this->id, $response));
 		} catch (HttpException $exception) {
 			$broker->sendCommand(ResponseMessage::from($this->id, response(
-				content: $exception->getMessage(), 
+				content: $exception->getMessage(),
 				status: $exception->getStatusCode(),
 				headers: $exception->getHeaders(),
 			)));

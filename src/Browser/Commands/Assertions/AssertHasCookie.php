@@ -7,8 +7,6 @@ use Facebook\WebDriver\Exception\NoSuchCookieException;
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\Commands\Assertions\Concerns\DecryptsCookies;
 use Glhd\Dawn\Browser\RemoteWebDriverBroker;
-use Illuminate\Cookie\CookieValuePrefix;
-use Illuminate\Support\Facades\Crypt;
 use PHPUnit\Framework\Assert;
 
 class AssertHasCookie extends BrowserAssertionCommand

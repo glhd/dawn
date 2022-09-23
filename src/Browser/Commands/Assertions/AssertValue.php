@@ -43,8 +43,8 @@ class AssertValue extends BrowserAssertionCommand
 		[$assertion, $message] = $this->getAssertion();
 		
 		$assertion(
-			expected: $this->value, 
-			actual: $this->actual, 
+			expected: $this->value,
+			actual: $this->actual,
 			message: sprintf($message, $this->value, $selector)
 		);
 	}

@@ -8,7 +8,6 @@ use Glhd\Dawn\Support\ResponseQueue;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use Symfony\Component\Process\InputStream;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 class RemoteWebDriverBroker extends Broker

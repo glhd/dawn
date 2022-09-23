@@ -2,9 +2,9 @@
 
 namespace Glhd\Dawn\Browser\Commands\Assertions;
 
-use Illuminate\Support\Arr;
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\RemoteWebDriverBroker;
+use Illuminate\Support\Arr;
 use PHPUnit\Framework\Assert;
 use stdClass;
 

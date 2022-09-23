@@ -5,7 +5,6 @@ namespace Glhd\Dawn\Http;
 use Glhd\Dawn\Support\Broker;
 use React\EventLoop\LoopInterface;
 use Symfony\Component\Process\InputStream;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 class WebServerBroker extends Broker

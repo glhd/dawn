@@ -2,9 +2,9 @@
 
 namespace Glhd\Dawn\IO;
 
-use Illuminate\Support\Reflector;
 use Glhd\Dawn\Support\BackgroundProcess;
 use Glhd\Dawn\Support\Broker;
+use Illuminate\Support\Reflector;
 use React\Stream\ReadableStreamInterface;
 use React\Stream\WritableStreamInterface;
 use ReflectionMethod;

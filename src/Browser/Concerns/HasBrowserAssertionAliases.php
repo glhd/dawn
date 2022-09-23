@@ -4,7 +4,6 @@ namespace Glhd\Dawn\Browser\Concerns;
 
 use Facebook\WebDriver\WebDriverBy;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertUrl;
-use Glhd\Dawn\Browser\Commands\Assertions\AssertUrlIs;
 
 trait HasBrowserAssertionAliases
 {
@@ -175,7 +174,7 @@ trait HasBrowserAssertionAliases
 	public function assertSelected(WebDriverBy|string $selector, $value): static
 	{
 		return $this->assertOptionSelectionState(
-			selector: $selector, 
+			selector: $selector,
 			value: $value,
 			message: 'Expected value [%s] to be selected for [%s], but it wasn\'t.'
 		);
@@ -194,7 +193,7 @@ trait HasBrowserAssertionAliases
 	public function assertSelectHasOptions(WebDriverBy|string $selector, array $options): static
 	{
 		return $this->assertOptionPresence(
-			selector: $selector, 
+			selector: $selector,
 			options: $options,
 			message: 'Expected options [%s] for selection field [%s] to be available.',
 		);

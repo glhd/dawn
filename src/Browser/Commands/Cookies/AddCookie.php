@@ -3,11 +3,10 @@
 namespace Glhd\Dawn\Browser\Commands\Cookies;
 
 use DateTimeInterface;
-use Facebook\WebDriver\WebDriverBy;
-use Illuminate\Cookie\CookieValuePrefix;
-use Illuminate\Support\Facades\Crypt;
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\Commands\BrowserCommand;
+use Illuminate\Cookie\CookieValuePrefix;
+use Illuminate\Support\Facades\Crypt;
 
 class AddCookie extends BrowserCommand
 {

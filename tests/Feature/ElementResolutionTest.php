@@ -4,9 +4,7 @@ namespace Glhd\Dawn\Tests\Feature;
 
 use Glhd\Dawn\RunsBrowserTests;
 use Glhd\Dawn\Tests\TestCase;
-use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
 class ElementResolutionTest extends TestCase
 {
