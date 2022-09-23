@@ -2,7 +2,6 @@
 
 namespace Glhd\Dawn\Browser\Concerns;
 
-use Facebook\WebDriver\Cookie;
 use Facebook\WebDriver\WebDriverBy;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertAttribute;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertCookieMissing;
@@ -27,8 +26,6 @@ use Glhd\Dawn\Browser\Commands\Assertions\AssertTitleContains;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertUrl;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertValue;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertVue;
-use Illuminate\Support\Str;
-use PHPUnit\Framework\Assert;
 
 /**
  * This file is auto-generated using `php artisan dawn:generate-command-helpers`
