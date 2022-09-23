@@ -180,6 +180,12 @@ class ElementResolver
 	
 	public function findOrFail(string|WebDriverBy $selector): RemoteWebElement
 	{
+		$css_mechanisms = ['class name', 'id', 'name', 'tag name'];
+		
+		if ($selector instanceof WebDriverBy && !in_array($selector->getMechanism(), $css_mechanisms)) {
+			return $this->driver->findElement($selector);
+		}
+		
 		$selector = $this->toCssSelector($selector);
 		
 		return $this->findById($selector) ?? $this->findBySelector($selector);
@@ -270,11 +276,9 @@ class ElementResolver
 	
 	protected function findButtonByName(string $button): ?RemoteWebElement
 	{
-		return $this->find([
-			"input[type=submit][name='{$button}']",
-			"input[type=button][value='{$button}']",
-			"button[name='{$button}']",
-		]);
+		return $this->find("input[type=submit][name='{$button}']")
+			?? $this->find("input[type=button][value='{$button}']")
+			?? $this->find("button[name='{$button}']");
 	}
 	
 	protected function findButtonByValue(string $value): ?RemoteWebElement
