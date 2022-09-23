@@ -15,7 +15,7 @@ class SendWebResponse extends Command
 			$id,
 			$response->getStatusCode(),
 			static::getPsrHeaders($response),
-			$response->getContent(),
+			static::getContent($response),
 			$response->getProtocolVersion(),
 		);
 	}
@@ -32,6 +32,14 @@ class SendWebResponse extends Command
 		}
 		
 		return $headers;
+	}
+	
+	protected static function getContent(SymfonyResponse $response): string
+	{
+		// This accounts for binary responses that are typically streamed
+		ob_start();
+		$response->sendContent();
+		return ob_get_clean();
 	}
 	
 	public function __construct(
