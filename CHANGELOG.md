@@ -5,6 +5,8 @@ format. This project adheres to [Semantic Versioning](https://semver.org/spec/v2
 
 ## [Unreleased]
 
+## [0.0.2] - 2022-09-23
+
 ## [0.0.1] - 2022-09-22
 
 ## [0.0.1]
@@ -18,7 +20,9 @@ format. This project adheres to [Semantic Versioning](https://semver.org/spec/v2
 -   `Fixed` for any bug fixes. 
 -   `Security` in case of vulnerabilities.
 
-[Unreleased]: https://github.com/glhd/dawn/compare/0.0.1...HEAD
+[Unreleased]: https://github.com/glhd/dawn/compare/0.0.2...HEAD
+
+[0.0.2]: https://github.com/glhd/dawn/compare/0.0.1...0.0.2
 
 [0.0.1]: https://github.com/glhd/dawn/compare/0.0.1...0.0.1
 
