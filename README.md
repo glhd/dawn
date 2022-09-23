@@ -99,7 +99,6 @@ Much of the Dusk API has been implemented, but not all of it.
 - `waitUntil()`
 - `waitUntilVue()`
 - `waitUntilVueIsNot()`
-- `waitUntilVueIsNot()`
 - `waitForReload()`
 - `clickAndWaitForReload()`
 - `waitForEvent()`
