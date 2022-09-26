@@ -10,7 +10,7 @@ class ElementResolutionTest extends TestCase
 {
 	use RunsBrowserTests;
 	
-	public function test_see_assertions(): void
+	public function test_button_resolvers(): void
 	{
 		Route::view('/', 'resolvers.buttons');
 		
