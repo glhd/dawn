@@ -44,7 +44,7 @@ class ThrowException extends Command
 		} catch (Throwable $exception) {
 			// If the full exception can't be serialized, then we'll just send the message
 			if (! is_string($this->exception)) {
-				$this->exception = $this->exception->getMessage();
+				$this->exception = class_basename($this->exception).': '.$this->exception->getMessage();
 				return parent::toData();
 			}
 			

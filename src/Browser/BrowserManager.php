@@ -4,8 +4,10 @@ namespace Glhd\Dawn\Browser;
 
 use Closure;
 use Facebook\WebDriver\Chrome\ChromeOptions;
+use Facebook\WebDriver\Exception\WebDriverCurlException;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Glhd\Dawn\Exceptions\WebDriverNotRunningException;
 use Glhd\Dawn\Support\ElementResolver;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\ForwardsCalls;
@@ -24,6 +26,8 @@ class BrowserManager
 	protected Collection $browsers;
 	
 	protected Closure $connector;
+	
+	protected ?SeleniumDriverProcess $driver_process = null;
 	
 	public function __construct(
 		Closure|string $connect,
@@ -45,6 +49,7 @@ class BrowserManager
 	public function quitAll(): void
 	{
 		$this->browsers->each(fn(ManagedDriver $driver) => $driver->quit());
+		$this->driver_process?->signal(SIGKILL);
 	}
 	
 	public function __call(string $name, array $arguments)
@@ -61,9 +66,19 @@ class BrowserManager
 		return $this->browsers->get($browser_id);
 	}
 	
-	protected function newBrowserConnection(): RemoteWebDriver
+	protected function newBrowserConnection(bool $autostart = true): RemoteWebDriver
 	{
-		return call_user_func($this->connector, $this);
+		try {
+			return call_user_func($this->connector, $this);
+		} catch (WebDriverCurlException $exception) {
+			// If we've already tried to auto-start, then just fail
+			if (! $autostart || $this->driver_process) {
+				throw new WebDriverNotRunningException($exception);
+			}
+			
+			$this->driver_process = app(SeleniumDriverProcess::class);
+			return $this->newBrowserConnection(autostart: false);
+		}
 	}
 	
 	protected function getConnector(Closure|string $connect): Closure

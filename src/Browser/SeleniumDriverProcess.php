@@ -17,7 +17,7 @@ class SeleniumDriverProcess extends Process
 		
 		parent::__construct(command: $arguments, env: $this->getSeleniumDriverEnvironment());
 		
-		register_shutdown_function(fn() => $this->stop(1, SIGKILL));
+		register_shutdown_function(fn() => $this->signal(SIGKILL));
 		
 		$this->start();
 		

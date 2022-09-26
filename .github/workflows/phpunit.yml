@@ -28,12 +28,18 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, bcmath, intl, iconv
           tools: composer:v2
-
-      - name: Setup Chrome
-        uses: browser-actions/setup-chrome@latest
+#
+#      - name: Setup Chrome
+#        uses: browser-actions/setup-chrome@latest
 
       - name: Setup Chrome Driver
         uses: nanasess/setup-chromedriver@v1
+        
+      - name: Start Chrome Driver
+        run: |
+          export DISPLAY=:99
+          chromedriver --port=9515 &
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
 
       - name: Register composer cache directory
         id: composer-cache-files-dir

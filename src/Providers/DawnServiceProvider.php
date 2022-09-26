@@ -54,7 +54,6 @@ class DawnServiceProvider extends ServiceProvider
 			return new ProcessManager(
 				remote_web_driver: $app->make(RemoteWebDriverBroker::class),
 				web_server: $app->make(WebServerBroker::class),
-				selenium: $app->make(SeleniumDriverProcess::class),
 			);
 		});
 		

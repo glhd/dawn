@@ -11,7 +11,6 @@ class ProcessManager
 	public function __construct(
 		public readonly RemoteWebDriverBroker $remote_web_driver,
 		public readonly WebServerBroker $web_server,
-		public readonly SeleniumDriverProcess $selenium,
 	) {
 	}
 	
@@ -19,6 +18,5 @@ class ProcessManager
 	{
 		$this->web_server->stop();
 		$this->remote_web_driver->stop();
-		$this->selenium->stop();
 	}
 }

@@ -25,7 +25,7 @@ return [
 	*/
 	'browser' => [
 		'url' => 'http://localhost:9515',
-		'window' => '1920,1080',
+		'window' => '1200,720',
 		'headless' => false,
 		'sandbox' => null === env('CI'),
 	],
