@@ -7,7 +7,6 @@ use Facebook\WebDriver\WebDriverExpectedCondition;
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\Commands\BrowserCommand;
 use Laravel\SerializableClosure\SerializableClosure;
-use RuntimeException;
 
 class WaitUsing extends BrowserCommand
 {

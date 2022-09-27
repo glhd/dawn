@@ -3,7 +3,6 @@
 namespace Glhd\Dawn\Support;
 
 use Glhd\Dawn\Browser\RemoteWebDriverBroker;
-use Glhd\Dawn\Browser\SeleniumDriverProcess;
 use Glhd\Dawn\Http\WebServerBroker;
 
 class ProcessManager

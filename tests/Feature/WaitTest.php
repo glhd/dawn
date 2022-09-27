@@ -13,7 +13,7 @@ class WaitTest extends TestCase
 	public function test_location_waits(): void
 	{
 		Route::get('a', function() {
-			return response('<a href="/b">Go to B</a>', headers: ['Content-Type' => 'text/html']); 
+			return response('<a href="/b">Go to B</a>', headers: ['Content-Type' => 'text/html']);
 		});
 		
 		Route::get('b', function() {

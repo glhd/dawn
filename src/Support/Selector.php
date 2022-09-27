@@ -19,7 +19,7 @@ class Selector
 			return $selector;
 		}
 		
-		return match($selector->getMechanism()) {
+		return match ($selector->getMechanism()) {
 			'css selector' => $selector->getValue(),
 			default => "{$selector->getMechanism()} '{$selector->getValue()}'",
 		};
