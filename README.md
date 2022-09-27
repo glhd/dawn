@@ -85,24 +85,13 @@ Much of the Dusk API has been implemented, but not all of it.
 #### Missing methods (may not be exhaustive):
 
 - `whenAvailable()`
-- `waitFor()`
-- `waitUntilMissing()`
-- `waitUntilMissingText()`
-- `waitForText()`
-- `waitForTextIn()`
-- `waitForLink()`
-- `waitForInput()`
-- `waitForLocation()`
-- `waitForRoute()`
 - `waitUntilEnabled()`
 - `waitUntilDisabled()`
-- `waitUntil()`
 - `waitUntilVue()`
 - `waitUntilVueIsNot()`
 - `waitForReload()`
 - `clickAndWaitForReload()`
 - `waitForEvent()`
-- `waitUsing()`
 - `attach()`
 - `pressAndWaitFor()`
 - `drag()`
@@ -139,6 +128,13 @@ Much of the Dusk API has been implemented, but not all of it.
 <dt>Is this the final API?</dt>
 <dd>Most of the `RunsBrowserTests` is pretty solid. The underlying implementation may change a ton before 1.0.</dd>
 </dl>
+
+## Major TODO Items
+
+- Finish copying over the Dusk API
+- Full test coverage
+- Get automated tests running on Windows
+- Improve the `chromedriver` installation/etc story
 
 [^1]: Dawn is generally easier to use out of the box, but writing custom low-level WebDriver code
       is trickier due to how Dawn works under the hood.

@@ -2,7 +2,12 @@
 
 namespace Glhd\Dawn\Browser\Concerns;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverExpectedCondition;
+use Glhd\Dawn\Support\Selector;
+use Illuminate\Support\Js;
+use Illuminate\Support\Str;
 
 trait HasBrowserCommandAliases
 {
@@ -92,5 +97,106 @@ trait HasBrowserCommandAliases
 	public function selected(WebDriverBy|string $selector, string $value): bool
 	{
 		return $this->getSelected($selector, $value);
+	}
+	
+	public function waitFor(WebDriverBy|string $selector, ?int $seconds = null): static
+	{
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: WebDriverExpectedCondition::presenceOfElementLocated(Selector::from($selector)),
+			message: 'Did not find selector before timeout.',
+		);
+	}
+	
+	public function waitUntilMissing(WebDriverBy|string $selector, ?int $seconds = null): static
+	{
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: WebDriverExpectedCondition::not(
+				WebDriverExpectedCondition::presenceOfElementLocated(Selector::from($selector))
+			),
+			message: 'Selector was not removed before timeout.',
+		);
+	}
+	
+	public function waitForTextIn(WebDriverBy|string $selector, string $text, ?int $seconds = null): static
+	{
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: WebDriverExpectedCondition::elementTextContains(
+				by: Selector::from($selector),
+				text: $text,
+			),
+			message: "Did not see text [{$text}] in selector [".Selector::toString($selector).'] before timeout.',
+		);
+	}
+	
+	public function waitForText(string $text, ?int $seconds = null): static
+	{
+		return $this->waitForTextIn('body', $text, $seconds);
+	}
+	
+	public function waitUntilMissingTextIn(WebDriverBy|string $selector, string $text, ?int $seconds = null): static
+	{
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: WebDriverExpectedCondition::not(
+				WebDriverExpectedCondition::elementTextContains(
+					by: Selector::from($selector),
+					text: $text,
+				)
+			),
+			message: "Text [{$text}] in selector [".Selector::toString($selector).'] was not removed before timeout.',
+		);
+	}
+	
+	public function waitUntilMissingText(string $text, ?int $seconds = null): static
+	{
+		return $this->waitUntilMissingTextIn('body', $seconds);
+	}
+	
+	public function waitForLink(string $link, ?int $seconds = null): static
+	{
+		return $this->waitFor(WebDriverBy::linkText($link), $seconds);
+	}
+	
+	public function waitForInput(string $field, ?int $seconds = null): static
+	{
+		return $this->waitFor("input[name='{$field}'], textarea[name='{$field}'], select[name='{$field}']", $seconds);
+	}
+	
+	public function waitForLocation(string $path, ?int $seconds = null): static
+	{
+		$message = "Waited for location [{$path}] but timed out.";
+		$path = Js::from($path);
+		
+		return Str::startsWith($path, ['http://', 'https://'])
+			? $this->waitUntil('`${location.protocol}//${location.host}${location.pathname}` == '.$path, $seconds, $message)
+			: $this->waitUntil("window.location.pathname == {$path}", $seconds, $message);
+	}
+	
+	public function waitForRoute(string $route, $parameters = [], ?int $seconds = null): static
+	{
+		return $this->waitForLocation(route($route, $parameters, false), $seconds);
+	}
+	
+	public function waitUntil(string $script, ?int $seconds = null, string $message = null): static
+	{
+		$script = (string) Str::of($script)
+			->start('return ')
+			->finish(';');
+		
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: static function(RemoteWebDriver $driver) use ($script) {
+				return $driver->executeScript($script);
+			},
+			message: $message,
+		);
 	}
 }

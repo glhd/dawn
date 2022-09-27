@@ -10,6 +10,7 @@ use Glhd\Dawn\Browser\Concerns\ExecutesDialogCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesElementCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesMouseCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesNavigateCommands;
+use Glhd\Dawn\Browser\Concerns\ExecutesWaitCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesWindowCommands;
 use Glhd\Dawn\Browser\Concerns\HasBrowserAssertionAliases;
 use Glhd\Dawn\Browser\Concerns\HasBrowserCommandAliases;
@@ -33,6 +34,7 @@ class Browser
 	use ExecutesElementCommands;
 	use ExecutesMouseCommands;
 	use ExecutesNavigateCommands;
+	use ExecutesWaitCommands;
 	use ExecutesWindowCommands;
 	use HasBrowserCommandAliases;
 	use HasBrowserAssertionAliases;
