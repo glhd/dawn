@@ -5,6 +5,12 @@
 			alt="Build Status" 
 		/>
 	</a>
+    <a href="https://codeclimate.com/github/glhd/dawn/test_coverage" target="_blank">
+        <img 
+            src="https://api.codeclimate.com/v1/badges/a7c4b59f7195ed254ab7/test_coverage"
+            alt="Test Coverage Status"
+        />
+    </a>
 	<a href="https://packagist.org/packages/glhd/dawn" target="_blank">
         <img 
             src="https://poser.pugx.org/glhd/dawn/v/stable" 
