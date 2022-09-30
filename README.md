@@ -48,7 +48,7 @@ This generally means that they run faster and with fewer restrictions.
 You can install the development release of Dawn via Composer (you'll need PHP 8.1 and Laravel 9):
 
 ```shell
-# composer require glhd/dawn:dev-main
+composer require glhd/dawn:dev-main
 ```
 
 ### Install Chrome Driver globally
