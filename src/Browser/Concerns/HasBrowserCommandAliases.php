@@ -2,12 +2,18 @@
 
 namespace Glhd\Dawn\Browser\Concerns;
 
+use Closure;
+use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
+use Glhd\Dawn\Browser\BrowserManager;
+use Glhd\Dawn\Browser\Helpers\Vue;
 use Glhd\Dawn\Support\Selector;
 use Illuminate\Support\Js;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
+use stdClass;
 
 trait HasBrowserCommandAliases
 {
@@ -198,5 +204,105 @@ trait HasBrowserCommandAliases
 			},
 			message: $message,
 		);
+	}
+	
+	public function waitUntilEnabled(WebDriverBy|string $selector, ?int $seconds = null): static
+	{
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: static function(BrowserManager $browser) use ($selector) {
+				return $browser->resolver->findOrFail($selector)->isEnabled();
+			},
+			message: "Waited $seconds seconds for element to be enabled",
+		);
+	}
+	
+	public function waitUntilDisabled(WebDriverBy|string $selector, ?int $seconds = null): static
+	{
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: static function(BrowserManager $browser) use ($selector) {
+				return ! $browser->resolver->findOrFail($selector)->isEnabled();
+			},
+			message: "Waited $seconds seconds for element to be disabled",
+		);
+	}
+	
+	public function waitUntilVue(string $key, string $value, WebDriverBy|string $selector = null, ?int $seconds = null): static
+	{
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: static function(BrowserManager $browser) use ($key, $value, $selector) {
+				$element = $browser->resolver->findOrFail($selector);
+				return $value === (new Vue($browser))->attribute($element, $key);
+			},
+			message: "Waited $seconds seconds for element to be disabled",
+		);
+	}
+	
+	public function waitUntilVueIsNot(string $key, string $value, WebDriverBy|string $selector = null, ?int $seconds = null): static
+	{
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: static function(BrowserManager $browser) use ($key, $value, $selector) {
+				$element = $browser->resolver->findOrFail($selector);
+				return $value !== (new Vue($browser))->attribute($element, $key);
+			},
+			message: "Waited $seconds seconds for element to be disabled",
+		);
+	}
+	
+	public function whenAvailable(WebDriverBy|string $selector, Closure $callback, ?int $seconds = null): static
+	{
+		// This is the best wait to check if a closure is static. Due to the nature of Dawn, closures
+		// passed across the I/O channel have certain limitations, and forcing them to be static
+		// helps ensure that they will work as expected. It's not ideal, but seems an OK solution for now.
+		if (null !== @Closure::bind($callback, new stdClass())) {
+			throw new InvalidArgumentException('Callbacks passed to whenAvailable() must be static.');
+		}
+		
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: static function(BrowserManager $browser) use ($selector, $callback) {
+				$element = $browser->resolver->findOrFail($selector);
+				$callback($browser, $element);
+			},
+			message: 'Did not find selector before timeout.',
+		);
+	}
+	
+	public function waitForReload($callback = null, ?int $seconds = null): static
+	{
+		// This is just a helper for folks moving over from Dusk
+		if (null !== $callback) {
+			throw new InvalidArgumentException('The `waitForReload` method does not require a callback in Dawn. Simply chain calls before or after it.');
+		}
+		
+		$html = null;
+		
+		return $this->waitUsing(
+			seconds: $seconds,
+			interval: 100,
+			wait: static function(BrowserManager $browser) use (&$html) {
+				$html ??= $browser->root;
+				try {
+					$html->isEnabled();
+					return false;
+				} catch (StaleElementReferenceException) {
+					return true;
+				}
+			},
+			message: "Waited $seconds for page reload.",
+		);
+	}
+	
+	public function clickAndWaitForReload(WebDriverBy|string|null $selector = null, ?int $seconds = null): static
+	{
+		return $this->click($selector)->waitForReload(seconds: $seconds);
 	}
 }

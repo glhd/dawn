@@ -84,19 +84,40 @@ Dawn aims to have an API that is mostly compatible with [Laravel Dusk](https://l
 Not all features or assertions are implemented, but for right now you're best using the Dusk documentation
 for reference.
 
+#### Differences from Dusk
+
+The primary API difference between Dawn and Dusk is that the Dawn APIs do not require browser
+interactions to happen inside of callbacks. For the most part, this just involves replacing
+calls to `$this->browse()` with `$this->openBrowser()` and removing the closure:
+
+```diff
+-$this->browse(function ($browser) {
++$browser = $this->openBrowser();
+$browser->visit('/login')
+-});
+```
+
+##### `waitForReload`
+
+In Dusk, you must trigger the browser interactions that will cause the page to reload 
+inside a closure. In Dawn, you can just chain `waitForReload()` after those operations:
+
+```php
+// Dusk
+$browser->waitForReload(function (Browser $browser) {
+  $browser->press('Submit');
+});
+
+// Dawn
+$browser->press('Submit')->waitForReload();
+```
+
 ### Dusk API Compatibility
 
 Much of the Dusk API has been implemented, but not all of it.
 
 #### Missing methods (may not be exhaustive):
 
-- `whenAvailable()`
-- `waitUntilEnabled()`
-- `waitUntilDisabled()`
-- `waitUntilVue()`
-- `waitUntilVueIsNot()`
-- `waitForReload()`
-- `clickAndWaitForReload()`
 - `waitForEvent()`
 - `attach()`
 - `pressAndWaitFor()`
