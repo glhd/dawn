@@ -48,11 +48,10 @@ class GenerateCommandHelpersCommand extends Command
 				$functions = $trait->functions->sortKeys()->values()->implode("\n\t\n");
 				
 				$imports = $trait->imports->unique()
-					->filter(fn($import) => Str::contains($functions, [
-						$import,
-						"\{$import}",
-						class_basename($import),
-					]))
+					->filter(function($import) use ($functions) {
+						return Str::contains($functions, [$import, "\{$import}"])
+							|| preg_match('/(?:^|[^a-z])'.preg_quote(class_basename($import), '/').'[: (|]/', $functions);
+					})
 					->sort()
 					->map(fn($import) => "use {$import};")
 					->implode("\n");
