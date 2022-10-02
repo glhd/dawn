@@ -3,7 +3,9 @@
 namespace Glhd\Dawn\Browser\Concerns;
 
 use Closure;
+use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
+use Glhd\Dawn\Browser\Commands\Wait\WaitForEvent;
 use Glhd\Dawn\Browser\Commands\Wait\WaitUsing;
 
 /**
@@ -13,6 +15,11 @@ use Glhd\Dawn\Browser\Commands\Wait\WaitUsing;
  */
 trait ExecutesWaitCommands
 {
+	public function waitForEvent(string $event, WebDriverBy|string|null $selector, ?int $seconds): static
+	{
+		return $this->command(new WaitForEvent($event, $selector, $seconds));
+	}
+	
 	public function waitUsing(?int $seconds, int $interval, Closure|WebDriverExpectedCondition $wait, ?string $message = null): static
 	{
 		return $this->command(new WaitUsing($seconds, $interval, $wait, $message));

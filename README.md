@@ -118,7 +118,6 @@ Much of the Dusk API has been implemented, but not all of it.
 
 #### Missing methods (may not be exhaustive):
 
-- `waitForEvent()`
 - `attach()`
 - `pressAndWaitFor()`
 - `drag()`
