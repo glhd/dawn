@@ -26,7 +26,7 @@ class AssertElementStatus extends BrowserAssertionCommand
 	
 	public function __construct(
 		public WebDriverBy|string $selector,
-		public bool $expect_exists = true,
+		public ?bool $expect_exists = true,
 		public string $resolver = 'find',
 		public ?bool $expect_displayed = null,
 		public ?bool $expect_selected = null,
@@ -39,6 +39,10 @@ class AssertElementStatus extends BrowserAssertionCommand
 	{
 		if (! $element = $this->resolveElement($manager->resolver)) {
 			$this->exists = false;
+			$this->displayed = false;
+			$this->selected = false;
+			$this->enabled = false;
+			$this->focused = false;
 			return;
 		}
 		

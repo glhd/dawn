@@ -54,7 +54,7 @@ trait ExecutesAssertionCommands
 		return $this->command(new AssertDontSeeIn($selector, $needle));
 	}
 	
-	public function assertElementStatus(WebDriverBy|string $selector, bool $expect_exists = true, string $resolver = 'find', ?bool $expect_displayed = null, ?bool $expect_selected = null, ?bool $expect_enabled = null, ?bool $expect_focused = null): static
+	public function assertElementStatus(WebDriverBy|string $selector, ?bool $expect_exists = true, string $resolver = 'find', ?bool $expect_displayed = null, ?bool $expect_selected = null, ?bool $expect_enabled = null, ?bool $expect_focused = null): static
 	{
 		return $this->command(new AssertElementStatus($selector, $expect_exists, $resolver, $expect_displayed, $expect_selected, $expect_enabled, $expect_focused));
 	}

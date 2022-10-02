@@ -69,7 +69,7 @@ trait HasBrowserAssertionAliases
 	
 	public function assertMissing(WebDriverBy|string $selector): static
 	{
-		return $this->assertElementStatus($selector, expect_displayed: false);
+		return $this->assertElementStatus($selector, expect_exists: null, expect_displayed: false);
 	}
 	
 	public function assertEnabled(WebDriverBy|string $selector): static
