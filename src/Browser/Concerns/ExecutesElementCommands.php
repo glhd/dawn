@@ -3,6 +3,7 @@
 namespace Glhd\Dawn\Browser\Concerns;
 
 use Facebook\WebDriver\WebDriverBy;
+use Glhd\Dawn\Browser\Commands\Elements\Attach;
 use Glhd\Dawn\Browser\Commands\Elements\CheckOrUncheck;
 use Glhd\Dawn\Browser\Commands\Elements\Clear;
 use Glhd\Dawn\Browser\Commands\Elements\Click;
@@ -22,6 +23,11 @@ use Glhd\Dawn\Browser\Commands\Elements\SetValue;
  */
 trait ExecutesElementCommands
 {
+	public function attach(WebDriverBy|string $selector, string $path): static
+	{
+		return $this->command(new Attach($selector, $path));
+	}
+	
 	public function checkOrUncheck(WebDriverBy|string $selector, bool $check = true): static
 	{
 		return $this->command(new CheckOrUncheck($selector, $check));

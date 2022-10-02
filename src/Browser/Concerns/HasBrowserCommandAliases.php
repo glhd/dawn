@@ -305,4 +305,44 @@ trait HasBrowserCommandAliases
 	{
 		return $this->click($selector)->waitForReload(seconds: $seconds);
 	}
+	
+	public function drag(WebDriverBy|string $from, WebDriverBy|string $to): static
+	{
+		return $this->dragAndDrop($from, $to);
+	}
+	
+	public function dragUp(WebDriverBy|string $selector, int $offset): static
+	{
+		return $this->dragAndDropBy($selector, 0, abs($offset) * -1);
+	}
+	
+	public function dragDown(WebDriverBy|string $selector, int $offset): static
+	{
+		return $this->dragAndDropBy($selector, 0, abs($offset));
+	}
+	
+	public function dragLeft(WebDriverBy|string $selector, int $offset): static
+	{
+		return $this->dragAndDropBy($selector, abs($offset) * -1, 0);
+	}
+	
+	public function dragRight(WebDriverBy|string $selector, int $offset): static
+	{
+		return $this->dragAndDropBy($selector, abs($offset), 0);
+	}
+	
+	public function moveMouse(int $x, int $y): static
+	{
+		return $this->moveByOffset($x, $y);
+	}
+	
+	public function clickAtXPath(string $expression): static
+	{
+		return $this->click(WebDriverBy::xpath($expression));
+	}
+	
+	public function clickAtPoint(int $x, int $y): static
+	{
+		return $this->executeScript("document.elementFromPoint({$x}, {$y}).click()");
+	}
 }

@@ -118,22 +118,7 @@ Much of the Dusk API has been implemented, but not all of it.
 
 #### Missing methods (may not be exhaustive):
 
-- `attach()`
 - `pressAndWaitFor()`
-- `drag()`
-- `dragUp()`
-- `dragDown()`
-- `dragLeft()`
-- `dragRight()`
-- `dragOffset()`
-- `moveMouse()`
-- `mouseover()`
-- `clickAtPoint()`
-- `clickAtXPath()`
-- `clickAndHold()`
-- `doubleClick()`
-- `rightClick()`
-- `releaseMouse()`
 
 #### Missing assertions (may not be exhaustive):
 
