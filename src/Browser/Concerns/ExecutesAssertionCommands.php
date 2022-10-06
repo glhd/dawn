@@ -4,10 +4,12 @@ namespace Glhd\Dawn\Browser\Concerns;
 
 use Facebook\WebDriver\WebDriverBy;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertAttribute;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertAttributeMissing;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertCookieMissing;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertDialogOpened;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertDontSeeIn;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertElementStatus;
+use Glhd\Dawn\Browser\Commands\Assertions\AssertHasClass;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertHasCookie;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertInputValue;
 use Glhd\Dawn\Browser\Commands\Assertions\AssertLinkVisibility;
@@ -39,6 +41,11 @@ trait ExecutesAssertionCommands
 		return $this->command(new AssertAttribute($selector, $attribute, $value, $not, $contains));
 	}
 	
+	public function assertAttributeMissing(WebDriverBy|string $selector, string $attribute): static
+	{
+		return $this->command(new AssertAttributeMissing($selector, $attribute));
+	}
+	
 	public function assertCookieMissing(string $name, bool $decrypt = true): static
 	{
 		return $this->command(new AssertCookieMissing($name, $decrypt));
@@ -57,6 +64,11 @@ trait ExecutesAssertionCommands
 	public function assertElementStatus(WebDriverBy|string $selector, ?bool $expect_exists = true, string $resolver = 'find', ?bool $expect_displayed = null, ?bool $expect_selected = null, ?bool $expect_enabled = null, ?bool $expect_focused = null): static
 	{
 		return $this->command(new AssertElementStatus($selector, $expect_exists, $resolver, $expect_displayed, $expect_selected, $expect_enabled, $expect_focused));
+	}
+	
+	public function assertHasClass(WebDriverBy|string $selector, string|array $class, bool $not = false): static
+	{
+		return $this->command(new AssertHasClass($selector, $class, $not));
 	}
 	
 	public function assertHasCookie(string $name, ?string $expected = null, bool $decrypt = true): static

@@ -9,6 +9,7 @@ use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\Commands\BrowserCommand;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Laravel\SerializableClosure\SerializableClosure;
+use RuntimeException;
 
 class WaitUsing extends BrowserCommand
 {
@@ -42,10 +43,14 @@ class WaitUsing extends BrowserCommand
 		
 		// If our wait callback needs access to the BrowserManager instance, we'll need
 		// to wrap it in a native "until" callback because that's handled inside the webdriver package.
-		if (BrowserManager::class === $this->firstClosureParameterType($closure)) {
-			return static function() use ($closure, $manager) {
-				return $closure($manager);
-			};
+		try {
+			if (BrowserManager::class === $this->firstClosureParameterType($closure)) {
+				return static function() use ($closure, $manager) {
+					return $closure($manager);
+				};
+			}
+		} catch (RuntimeException) {
+			// If the closure doesn't have a typed parameter, we'll just leave it be
 		}
 		
 		return $closure;

@@ -308,4 +308,9 @@ trait HasBrowserAssertionAliases
 	{
 		return $this->command(AssertUrl::withExpectation('fragment', 'starts_with', $expected));
 	}
+	
+	public function assertClassMissing(WebDriverBy|string $selector, string|array $class): static
+	{
+		return $this->assertHasClass($selector, $class, not: true);
+	}
 }

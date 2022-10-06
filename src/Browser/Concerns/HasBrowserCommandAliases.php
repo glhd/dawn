@@ -8,6 +8,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Glhd\Dawn\Browser\BrowserManager;
+use Glhd\Dawn\Browser\Helpers\Livewire;
 use Glhd\Dawn\Browser\Helpers\Vue;
 use Glhd\Dawn\Support\Selector;
 use Illuminate\Support\Js;
@@ -344,5 +345,10 @@ trait HasBrowserCommandAliases
 	public function clickAtPoint(int $x, int $y): static
 	{
 		return $this->executeScript("document.elementFromPoint({$x}, {$y}).click()");
+	}
+	
+	public function waitForLivewireToLoad(): static
+	{
+		return $this->waitUsing(6, 25, (new Livewire())->wait());
 	}
 }
