@@ -7,6 +7,7 @@ use Glhd\Dawn\Http\WebServerBroker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Visit extends BrowserCommand
@@ -15,7 +16,10 @@ class Visit extends BrowserCommand
 	
 	public function __construct(string $url)
 	{
-		$this->url = url($url);
+		$this->url = match (true) {
+			Str::is('about:*', $url) => $url,
+			default => url($url),
+		};
 		
 		$this->rewriteUrlIfHandledByApplication();
 	}

@@ -351,4 +351,24 @@ trait HasBrowserCommandAliases
 	{
 		return $this->waitUsing(6, 25, (new Livewire())->wait());
 	}
+	
+	public function blank(): static
+	{
+		return $this->visit('about:blank');
+	}
+	
+	public function scrollIntoView(string $selector): static
+	{
+		// TODO: Handle @dusk selectors and scoping
+		
+		return $this->executeScript('document.querySelector('.json_encode($selector).').scrollIntoView();');
+	}
+	
+	public function scrollTo(string $selector): static
+	{
+		// TODO: Handle @dusk selectors and scoping
+		
+		return $this->executeScript('document.querySelector('.json_encode($selector).')
+			.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });');
+	}
 }

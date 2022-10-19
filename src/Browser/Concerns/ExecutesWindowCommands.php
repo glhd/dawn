@@ -3,6 +3,7 @@
 namespace Glhd\Dawn\Browser\Concerns;
 
 use Glhd\Dawn\Browser\Commands\Window\CloseBrowserWindow;
+use Glhd\Dawn\Browser\Commands\Window\FitContent;
 use Glhd\Dawn\Browser\Commands\Window\Maximize;
 use Glhd\Dawn\Browser\Commands\Window\OpenNewWindow;
 use Glhd\Dawn\Browser\Commands\Window\Resize;
@@ -18,6 +19,11 @@ trait ExecutesWindowCommands
 	public function closeBrowserWindow(): static
 	{
 		return $this->command(new CloseBrowserWindow());
+	}
+	
+	public function fitContent(): static
+	{
+		return $this->command(new FitContent());
 	}
 	
 	public function maximize(): static
