@@ -97,6 +97,17 @@ $browser->visit('/login')
 -});
 ```
 
+There are certain Dusk methods are either tricky to implement with Dawn's async I/O channel, or are
+impossible to recreate exactly due to serialization constraints (you cannot serialize a TCP connection, for example).
+Here are some such functions:
+
+- `login()`, `loginAs()`, etc — these don't make any sense in Dawn, because you can just
+  use the normal `actingAs()` or `be()` helper methods in your test.
+- `cookie()` and `plainCookie()` — these will eventually be implemented
+- `element()` and `elements()` — because Dawn interacts with the WebDriver instance in a background process,
+  it is a little harder to get direct access to the underlying `RemoteWebElement` instances in your main
+  PHPUnit process. There will eventually be an API for accessing these, but it will likely work slightly differently.
+
 ##### `waitForReload`
 
 In Dusk, you must trigger the browser interactions that will cause the page to reload 
