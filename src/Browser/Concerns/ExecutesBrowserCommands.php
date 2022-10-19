@@ -6,7 +6,6 @@ use Glhd\Dawn\Browser\Commands\ExecuteScript;
 use Glhd\Dawn\Browser\Commands\QuitBrowser;
 use Glhd\Dawn\Browser\Commands\TakeScreenshot;
 use Glhd\Dawn\Browser\Commands\Visit;
-use Glhd\Dawn\Browser\Commands\WaitForUrl;
 
 /**
  * This file is auto-generated using `php artisan dawn:generate-command-helpers`
@@ -33,10 +32,5 @@ trait ExecutesBrowserCommands
 	public function visit(string $url): static
 	{
 		return $this->command(new Visit($url));
-	}
-	
-	public function waitForUrl(string $url, ?int $timeout = null, ?int $interval = null): static
-	{
-		return $this->command(new WaitForUrl($url, $timeout, $interval));
 	}
 }

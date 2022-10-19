@@ -2,9 +2,11 @@
 
 namespace Glhd\Dawn;
 
+use BadMethodCallException;
 use Closure;
 use Glhd\Dawn\Browser\Concerns\ExecutesAssertionCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesBrowserCommands;
+use Glhd\Dawn\Browser\Concerns\ExecutesCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesCookieCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesDialogCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesElementCommands;
@@ -27,15 +29,7 @@ class Browser
 {
 	use Macroable;
 	use Conditionable;
-	use ExecutesAssertionCommands;
-	use ExecutesBrowserCommands;
-	use ExecutesCookieCommands;
-	use ExecutesDialogCommands;
-	use ExecutesElementCommands;
-	use ExecutesMouseCommands;
-	use ExecutesNavigateCommands;
-	use ExecutesWaitCommands;
-	use ExecutesWindowCommands;
+	use ExecutesCommands;
 	use HasBrowserCommandAliases;
 	use HasBrowserAssertionAliases;
 	
@@ -67,6 +61,37 @@ class Browser
 		}
 		
 		return $this;
+	}
+	
+	public function tap($callback): static
+	{
+		$callback($this);
+		
+		return $this;
+	}
+	
+	public function tinker(): static
+	{
+		if (!class_exists(\Psy\Shell::class)) {
+			throw new BadMethodCallException('Psy Shell (required for Tinker) is not installed.');
+		}
+		
+		// Unfortunately, because of the I/O channel, the driver/resolver/page aren't available
+		// inside the main process. I'm not sure if there's a solution for that… 
+		
+		\Psy\Shell::debug([
+			'browser' => $this,
+			// 'driver' => $this->driver,
+			// 'resolver' => $this->resolver,
+			// 'page' => $this->page,
+		], $this);
+		
+		return $this;
+	}
+	
+	public function stop(): void
+	{
+		exit();
 	}
 	
 	public function withLastResponse(Closure $callback): static

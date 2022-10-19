@@ -25,7 +25,7 @@ class GenerateCommandHelpersCommand extends Command
 		$this->line('Generating traits...');
 		$this->newLine();
 		
-		collect(Finder::create()->files()->in($this->base)->name('*.php'))
+		$traits = collect(Finder::create()->files()->in($this->base)->name('*.php'))
 			->reduce(function(Collection $traits, SplFileInfo $file) {
 				[$trait, $imports, $function_name, $function_body] = $this->handleFile($file);
 				
@@ -65,7 +65,29 @@ class GenerateCommandHelpersCommand extends Command
 				return "use {$trait->trait};";
 			})
 			->sort()
-			->each(fn($use) => $this->line($use));
+			->each(fn($use) => $this->line($use))
+			->implode("\n\t");
+		
+		$fs = new Filesystem();
+		$path = __DIR__.'/../../Browser/Concerns/ExecutesCommands.php';
+		$code = <<<PHP
+		<?php
+		
+		namespace Glhd\Dawn\Browser\Concerns;
+		
+		/**
+		 * This file is auto-generated using `php artisan dawn:generate-command-helpers`
+		 *
+		 * @see \Glhd\Dawn\Console\Commands\GenerateCommandHelpersCommand
+		 */
+		trait ExecutesCommands
+		{
+			{$traits}
+		}
+		
+		PHP;
+		
+		$fs->put($path, $code);
 		
 		$this->newLine();
 	}

@@ -107,6 +107,7 @@ Here are some such functions:
 - `element()` and `elements()` — because Dawn interacts with the WebDriver instance in a background process,
   it is a little harder to get direct access to the underlying `RemoteWebElement` instances in your main
   PHPUnit process. There will eventually be an API for accessing these, but it will likely work slightly differently.
+- `ensurejQueryIsAvailable()` — Dawn does not rely on jQuery
 
 ##### `waitForReload`
 
@@ -130,6 +131,8 @@ Much of the Dusk API has been implemented, but not all of it.
 #### Missing methods (may not be exhaustive):
 
 - `pressAndWaitFor()`
+- `within()`/`with()`/`elsewhere()`/`elsewhereWhenAvailable()` (scopes are generally not implemented yet)
+- `onComponent()` (components aren't implemented yet) 
 
 #### Missing assertions (may not be exhaustive):
 

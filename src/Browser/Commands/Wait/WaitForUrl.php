@@ -1,8 +1,9 @@
 <?php
 
-namespace Glhd\Dawn\Browser\Commands;
+namespace Glhd\Dawn\Browser\Commands\Wait;
 
 use Facebook\WebDriver\WebDriverExpectedCondition;
+use Glhd\Dawn\Browser\Commands\BrowserCommand;
 
 class WaitForUrl extends BrowserCommand
 {

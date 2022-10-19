@@ -11,6 +11,7 @@ use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\Helpers\Livewire;
 use Glhd\Dawn\Browser\Helpers\Vue;
 use Glhd\Dawn\Support\Selector;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Js;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -368,7 +369,115 @@ trait HasBrowserCommandAliases
 	{
 		// TODO: Handle @dusk selectors and scoping
 		
-		return $this->executeScript('document.querySelector('.json_encode($selector).')
-			.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });');
+		return $this->executeScript(
+			'document.querySelector('.json_encode($selector).').scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });'
+		);
+	}
+	
+	public function screenshot(string $name): static
+	{
+		// TODO:
+		// Browser::$storeScreenshotsAt = base_path('tests/Browser/screenshots');
+		
+		return $this->takeScreenshot(base_path("tests/Browser/screenshots/{$name}.png"));
+	}
+	
+	public function responsiveScreenshots(string $name): static
+	{
+		// TODO: $responsiveScreenSizes
+		$sizes = [
+			'xs' => [
+				'width' => 360,
+				'height' => 640,
+			],
+			'sm' => [
+				'width' => 640,
+				'height' => 360,
+			],
+			'md' => [
+				'width' => 768,
+				'height' => 1024,
+			],
+			'lg' => [
+				'width' => 1024,
+				'height' => 768,
+			],
+			'xl' => [
+				'width' => 1280,
+				'height' => 1024,
+			],
+			'2xl' => [
+				'width' => 1536,
+				'height' => 864,
+			],
+		];
+		
+		if (substr($name, -1) !== '/') {
+			$name .= '-';
+		}
+		
+		foreach ($sizes as $device => $size) {
+			$this->resize($size['width'], $size['height'])->screenshot("$name$device");
+		}
+		
+		return $this;
+	}
+	
+	public function storeConsoleLog(string $name): static
+	{
+		// TODO: $storeConsoleLogAt
+		return $this->getLog(base_path("tests/Browser/console/{$name}.log"));
+	}
+	
+	public function storeSource(string $name): static
+	{
+		// TODO: 
+		// Browser::$storeSourceAt = base_path('tests/Browser/source');
+		
+		if (!empty($source = $this->getPageSource())) {
+			$fs = new Filesystem();
+			$path = base_path("tests/Browser/source/{$name}.txt");
+			
+			$fs->ensureDirectoryExists(dirname($path));
+			$fs->put($path, $source);
+		}
+		
+		return $this;
+	}
+	
+	public function withinFrame(string|WebDriverBy $selector, Closure $callback): static
+	{
+		try {
+			$this->switchTo('frame', $selector);
+			$callback($this);
+		} finally {
+			$this->switchTo('defaultContent');
+		}
+		
+		return $this;
+	}
+	
+	public function pause(int $milliseconds): static
+	{
+		return $this->sleep($milliseconds / 1000);
+	}
+	
+	public function dump(): static
+	{
+		dump($this->getPageSource());
+		
+		return $this;
+	}
+	
+	public function dd(): static
+	{
+		dd($this->getPageSource());
+		
+		/** 
+		 * We will never reach this, but it's useful to have for better IDE support.
+		 * 
+		 * @noinspection PhpUnreachableStatementInspection 
+		 */
+		return $this;
 	}
 }
