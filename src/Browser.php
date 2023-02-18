@@ -4,16 +4,7 @@ namespace Glhd\Dawn;
 
 use BadMethodCallException;
 use Closure;
-use Glhd\Dawn\Browser\Concerns\ExecutesAssertionCommands;
-use Glhd\Dawn\Browser\Concerns\ExecutesBrowserCommands;
 use Glhd\Dawn\Browser\Concerns\ExecutesCommands;
-use Glhd\Dawn\Browser\Concerns\ExecutesCookieCommands;
-use Glhd\Dawn\Browser\Concerns\ExecutesDialogCommands;
-use Glhd\Dawn\Browser\Concerns\ExecutesElementCommands;
-use Glhd\Dawn\Browser\Concerns\ExecutesMouseCommands;
-use Glhd\Dawn\Browser\Concerns\ExecutesNavigateCommands;
-use Glhd\Dawn\Browser\Concerns\ExecutesWaitCommands;
-use Glhd\Dawn\Browser\Concerns\ExecutesWindowCommands;
 use Glhd\Dawn\Browser\Concerns\HasBrowserAssertionAliases;
 use Glhd\Dawn\Browser\Concerns\HasBrowserCommandAliases;
 use Glhd\Dawn\Browser\RemoteWebDriverBroker;
@@ -72,7 +63,7 @@ class Browser
 	
 	public function tinker(): static
 	{
-		if (!class_exists(\Psy\Shell::class)) {
+		if (! class_exists(\Psy\Shell::class)) {
 			throw new BadMethodCallException('Psy Shell (required for Tinker) is not installed.');
 		}
 		
