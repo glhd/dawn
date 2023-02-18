@@ -7,15 +7,18 @@ use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
+use Glhd\Dawn\Browser;
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\Helpers\Livewire;
 use Glhd\Dawn\Browser\Helpers\Vue;
+use Glhd\Dawn\Browser\PendingWait;
 use Glhd\Dawn\Support\Selector;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Js;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use stdClass;
+use function PHPUnit\Framework\callback;
 
 trait HasBrowserCommandAliases
 {
@@ -280,32 +283,26 @@ trait HasBrowserCommandAliases
 	
 	public function waitForReload($callback = null, ?int $seconds = null): static
 	{
-		// This is just a helper for folks moving over from Dusk
-		if (null !== $callback) {
-			throw new InvalidArgumentException('The `waitForReload` method does not require a callback in Dawn. Simply chain calls before or after it.');
+		$token = Str::random();
+		$this->executeScript("window['{$token}'] = 0;");
+		
+		if ($callback) {
+			$callback($this);
 		}
 		
-		$html = null;
-		
-		return $this->waitUsing(
+		return $this->waitUntil(
+			script: "'undefined' === typeof window['{$token}']",
 			seconds: $seconds,
-			interval: 100,
-			wait: static function(BrowserManager $browser) use (&$html) {
-				$html ??= $browser->root;
-				try {
-					$html->isEnabled();
-					return false;
-				} catch (StaleElementReferenceException) {
-					return true;
-				}
-			},
 			message: "Waited $seconds for page reload.",
 		);
 	}
 	
 	public function clickAndWaitForReload(WebDriverBy|string|null $selector = null, ?int $seconds = null): static
 	{
-		return $this->click($selector)->waitForReload(seconds: $seconds);
+		return $this->waitForReload(
+			callback: static fn(Browser $browser) => $browser->click($selector),
+			seconds: $seconds
+		);
 	}
 	
 	public function drag(WebDriverBy|string $from, WebDriverBy|string $to): static
@@ -434,7 +431,7 @@ trait HasBrowserCommandAliases
 		// TODO: 
 		// Browser::$storeSourceAt = base_path('tests/Browser/source');
 		
-		if (!empty($source = $this->getPageSource())) {
+		if (! empty($source = $this->getPageSource())) {
 			$fs = new Filesystem();
 			$path = base_path("tests/Browser/source/{$name}.txt");
 			
@@ -473,10 +470,10 @@ trait HasBrowserCommandAliases
 	{
 		dd($this->getPageSource());
 		
-		/** 
+		/**
 		 * We will never reach this, but it's useful to have for better IDE support.
-		 * 
-		 * @noinspection PhpUnreachableStatementInspection 
+		 *
+		 * @noinspection PhpUnreachableStatementInspection
 		 */
 		return $this;
 	}

@@ -27,6 +27,7 @@ class LocalHttpCommandRelay
 	
 	public bool $running = true;
 	
+	/** @var \Illuminate\Support\Collection<mixed, callable> $queue */
 	protected Collection $queue;
 	
 	protected SocketServer $socket;

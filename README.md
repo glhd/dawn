@@ -109,21 +109,6 @@ Here are some such functions:
   PHPUnit process. There will eventually be an API for accessing these, but it will likely work slightly differently.
 - `ensurejQueryIsAvailable()` — Dawn does not rely on jQuery
 
-##### `waitForReload`
-
-In Dusk, you must trigger the browser interactions that will cause the page to reload 
-inside a closure. In Dawn, you can just chain `waitForReload()` after those operations:
-
-```php
-// Dusk
-$browser->waitForReload(function (Browser $browser) {
-  $browser->press('Submit');
-});
-
-// Dawn
-$browser->press('Submit')->waitForReload();
-```
-
 ### Dusk API Compatibility
 
 Much of the Dusk API has been implemented, but not all of it.

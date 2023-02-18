@@ -21,7 +21,7 @@
       <option name="workingDir" value="$ProjectFileDir$" />
       <envs />
     </TaskOptions>
-    <TaskOptions isEnabled="true">
+    <TaskOptions isEnabled="false">
       <option name="arguments" value="--output=./tests/resources/tailwind.css --content=./tests/views/**/*.blade.php" />
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" />

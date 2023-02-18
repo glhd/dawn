@@ -10,6 +10,21 @@ class WaitTest extends TestCase
 {
 	use RunsBrowserTests;
 	
+	public function test_wait_for_reload(): void
+	{
+		Route::view('/', 'reload');
+		
+		$browser = $this->openBrowser()->visit('/');
+		
+		$original = $browser->getText('#random');
+		
+		$browser->clickAndWaitForReload('#reload');
+		
+		$reloaded = $browser->getText('#random');
+		
+		$this->assertNotEquals($original, $reloaded);
+	}
+	
 	public function test_location_waits(): void
 	{
 		Route::get('a', function() {

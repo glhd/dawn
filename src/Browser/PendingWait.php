@@ -31,12 +31,11 @@ class PendingWait
 		protected int $interval = 100,
 		protected ?string $message = null,
 	) {
-		
 	}
 	
-	protected function wait()
+	protected function wait(): Browser
 	{
-		return $this->browser->waitUsing($this->seconds, $this->interval, $this->wait);
+		return $this->browser->waitUsing($this->seconds, $this->interval, $this->wait, $this->message);
 	}
 	
 	public function __call(string $name, array $arguments)
