@@ -17,14 +17,14 @@
     "ext-pcntl": "*",
     "ext-sockets": "*",
     "ext-zip": "*",
-    "illuminate/support": "^9.0",
+    "illuminate/support": "9.*|10.*|dev-master",
     "nyholm/psr7": "^1.5",
     "php-webdriver/webdriver": "^1.12",
     "react/http": "^1.7",
     "symfony/psr-http-message-bridge": "^2.1"
   },
   "require-dev": {
-    "orchestra/testbench": "^7.0",
+    "orchestra/testbench": "7.*|8.*|dev-master",
     "friendsofphp/php-cs-fixer": "^3.0",
     "mockery/mockery": "^1.3",
     "phpunit/phpunit": "^9.5",
