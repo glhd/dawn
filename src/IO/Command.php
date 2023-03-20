@@ -2,9 +2,9 @@
 
 namespace Glhd\Dawn\IO;
 
+use Glhd\Dawn\Exceptions\UnableToInstantiateCommandFromData;
+use Glhd\Dawn\Exceptions\UnexpectedCommandType;
 use Illuminate\Support\Str;
-use InvalidArgumentException;
-use RuntimeException;
 use Stringable;
 use Throwable;
 
@@ -21,10 +21,9 @@ abstract class Command implements Stringable
 				return $result;
 			}
 			
-			$got = get_debug_type($result);
-			throw new InvalidArgumentException("Expected Dawn message object, but got '{$got}' instead.");
+			throw new UnexpectedCommandType(static::class, $result);
 		} catch (Throwable $exception) {
-			throw new RuntimeException("Unable to process message: '{$data}'", $exception->getCode(), $exception);
+			throw new UnableToInstantiateCommandFromData($data, $exception);
 		}
 	}
 	

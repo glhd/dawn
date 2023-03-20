@@ -49,7 +49,7 @@ class ThrowException extends Command
 			}
 			
 			// If we already have a string, we'll just re-throw
-			return $exception;
+			throw $exception;
 		}
 	}
 }
