@@ -60,8 +60,10 @@ class DawnServiceProvider extends ServiceProvider
 		$this->app->bind(Browser::class, function(Container $app) {
 			// When we ask for a browser, we want all background processes running,
 			// so we'll load up the full process manager (even though the browser
-			// only really cares about the webdriver process).
-			$pm = $app->make(ProcessManager::class);
+			// only really cares about the webdriver process). We'll do this thru
+			// an internal singleton, so that the processes run across all tests,
+			// regardless of the number of times the application is bootstrapped
+			$pm = ProcessManager::getInstance();
 			
 			return new Browser(
 				broker: $pm->remote_web_driver,

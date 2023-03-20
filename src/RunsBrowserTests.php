@@ -24,7 +24,5 @@ trait RunsBrowserTests
 	protected function tearDownRunsBrowserTests(): void
 	{
 		$this->browsers->each(fn(Browser $browser) => $browser->quit());
-		
-		$this->app->make(ProcessManager::class)->stop();
 	}
 }
