@@ -7,8 +7,6 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Exception\WebDriverCurlException;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Facebook\WebDriver\Remote\WebDriverCapabilityType;
-use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
 use Glhd\Dawn\Exceptions\WebDriverNotRunningException;
 use Glhd\Dawn\Support\ElementResolver;
@@ -59,13 +57,7 @@ class BrowserManager
 	
 	public function __call(string $name, array $arguments)
 	{
-		$result = $this->forwardDecoratedCallTo($this->driver, $name, $arguments);
-		
-		// After each operation, we'll store a reference to the current DOM root so
-		// that at any time we can check it for staleness (to look for refreshes, for example)
-		// FIXME: $this->root = $this->driver->findElement(WebDriverBy::tagName('html'));
-		
-		return $result;
+		return $this->forwardDecoratedCallTo($this->driver, $name, $arguments);
 	}
 	
 	protected function getDriver(string $browser_id): ManagedDriver

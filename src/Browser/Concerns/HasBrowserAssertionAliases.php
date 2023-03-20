@@ -112,7 +112,7 @@ trait HasBrowserAssertionAliases
 	public function assertInputMissing(string $name): static
 	{
 		return $this->assertElementStatus(
-			selector:"input[name='{$name}'], textarea[name='{$name}'], select[name='{$name}']",
+			selector: "input[name='{$name}'], textarea[name='{$name}'], select[name='{$name}']",
 			expect_exists: false
 		);
 	}

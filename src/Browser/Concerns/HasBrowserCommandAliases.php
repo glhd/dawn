@@ -3,7 +3,6 @@
 namespace Glhd\Dawn\Browser\Concerns;
 
 use Closure;
-use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
@@ -11,14 +10,12 @@ use Glhd\Dawn\Browser;
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\Helpers\Livewire;
 use Glhd\Dawn\Browser\Helpers\Vue;
-use Glhd\Dawn\Browser\PendingWait;
 use Glhd\Dawn\Support\Selector;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Js;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use stdClass;
-use function PHPUnit\Framework\callback;
 
 trait HasBrowserCommandAliases
 {
