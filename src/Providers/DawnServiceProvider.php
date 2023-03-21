@@ -22,7 +22,7 @@ class DawnServiceProvider extends ServiceProvider
 {
 	public function register()
 	{
-		$this->mergeConfigFrom(__DIR__.'/../../config/dawn.php', 'dawn');
+		$this->mergeConfigFrom($this->packageConfigFile(), 'dawn');
 
 		if (! $this->app->runningUnitTests()) {
 			return;
@@ -127,6 +127,6 @@ class DawnServiceProvider extends ServiceProvider
 
 	protected function packageConfigFile(): string
 	{
-		return  dirname(__DIR__, 2).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'dawn.php';
+		return __DIR__.'/../../config/dawn.php';
 	}
 }
