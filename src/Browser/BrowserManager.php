@@ -52,6 +52,12 @@ class BrowserManager
 	public function quitAll(): void
 	{
 		$this->browsers->each(fn(ManagedDriver $driver) => $driver->quit());
+	}
+	
+	public function stop(): void
+	{
+		$this->quitAll();
+		
 		$this->driver_process?->signal(SIGKILL);
 	}
 	
@@ -105,17 +111,17 @@ class BrowserManager
 	{
 		$arguments = [];
 		
-		if (false === config('dawn.browser.sandbox')) {
+		if (false === config('dawn.browser_sandbox')) {
 			$arguments[] = '--no-sandbox';
 			$arguments[] = '--disable-dev-shm-usage';
 		}
 		
-		if (config('dawn.browser.headless', true)) {
+		if (config('dawn.browser_headless', true)) {
 			$arguments[] = '--headless';
 			$arguments[] = '--disable-gpu';
 		}
 		
-		if ($window = config('dawn.browser.window')) {
+		if ($window = config('dawn.browser_window')) {
 			$arguments[] = '--window-size='.$window;
 		}
 		

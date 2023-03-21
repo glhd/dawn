@@ -14,9 +14,9 @@ use Glhd\Dawn\Browser\Commands\Manage\SwitchTo;
  */
 trait ExecutesManageCommands
 {
-	public function getLog(string $save_as, string $log_type = 'browser'): static
+	public function getLog(string $filename, string $log_type = 'browser'): static
 	{
-		return $this->command(new GetLog($save_as, $log_type));
+		return $this->command(new GetLog($filename, $log_type));
 	}
 	
 	public function getPageSource(): ?string

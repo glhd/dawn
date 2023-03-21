@@ -117,7 +117,7 @@ Much of the Dusk API has been implemented, but not all of it.
 
 - `pressAndWaitFor()`
 - `within()`/`with()`/`elsewhere()`/`elsewhereWhenAvailable()` (scopes are generally not implemented yet)
-- `onComponent()` (components aren't implemented yet) 
+- `onComponent()` (components aren't implemented yet)
 
 #### Missing assertions (may not be exhaustive):
 
@@ -125,6 +125,13 @@ Much of the Dusk API has been implemented, but not all of it.
 - `assertVueDoesNotContain()`
 - `assertQueryStringHas()`
 - `assertQueryStringMissing()`
+
+## Troubleshooting
+
+<dl>
+<dt>I get an error like `Failed to connect to localhost port 9515 after 2 ms: Couldn't connect to server`</dt>
+<dd>Make sure you have both `chromedriver` and the same version of Google Chrome installed.</dd>
+</dl>
 
 ## FAQ
 
@@ -145,6 +152,7 @@ Much of the Dusk API has been implemented, but not all of it.
 - Full test coverage
 - Get automated tests running on Windows
 - Improve the `chromedriver` installation/etc story
+- Get drag and drop working
 
 [^1]: Dawn is generally easier to use out of the box, but writing custom low-level WebDriver code
       is trickier due to how Dawn works under the hood.

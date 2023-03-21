@@ -226,7 +226,8 @@ class ElementResolver
 		);
 		
 		if (Str::startsWith($selector, '@') && $mapped_selector === $selector) {
-			$selector = '[data-dawn-target="'.$this->escapeSelector(Str::after($selector, '@')).'"]';
+			$attribute = config('dawn.target_attribute', 'data-dawn-target');
+			$selector = '['.$attribute.'="'.$this->escapeSelector(Str::after($selector, '@')).'"]';
 		}
 		
 		return trim($this->prefix.' '.$selector);

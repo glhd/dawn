@@ -14,6 +14,7 @@ use Glhd\Dawn\Support\ProcessManager;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use React\EventLoop\Loop;
 
@@ -31,19 +32,20 @@ class DawnServiceProvider extends ServiceProvider
 			return match (config('dawn.debugger')) {
 				'dump' => new Debugger(fn($message) => dump($message)),
 				'ray' => new Debugger(fn($message) => ray($message)),
+				'log' => new Debugger(fn($message) => Log::debug($message)),
 				default => new Debugger(),
 			};
 		});
 		
 		$this->app->singleton(WebServerBroker::class, function() {
 			return new WebServerBroker(
-				host: config('dawn.server.host', '127.0.0.1'),
-				port: config('dawn.server.port') ?? $this->findOpenPort(),
+				host: config('dawn.server_host', '127.0.0.1'),
+				port: config('dawn.server_port') ?? $this->findOpenPort(),
 			);
 		});
 		
 		$this->app->singleton(RemoteWebDriverBroker::class, function() {
-			return new RemoteWebDriverBroker(config('dawn.browser.url', 'http://localhost:9515'));
+			return new RemoteWebDriverBroker(config('dawn.browser_url', 'http://localhost:9515'));
 		});
 		
 		$this->app->singleton(SeleniumDriverProcess::class, function() {
@@ -75,9 +77,13 @@ class DawnServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		Blade::directive('dawnTarget', function($expression) {
-			return App::runningUnitTests()
-				? '<?php echo \' data-dawn-target="\'.e((string) '.$expression.').\'" \'; ?>'
-				: '';
+			$attribute = config('dawn.target_attribute', 'data-dawn-target');
+			
+			if (empty($attribute)) {
+				return '';
+			}
+			
+			return '<?php echo \' '.$attribute.'="\'.e((string) '.$expression.').\'" \'; ?>';
 		});
 		
 		if ($this->app->runningInConsole() || $this->app->runningUnitTests()) {
@@ -101,7 +107,7 @@ class DawnServiceProvider extends ServiceProvider
 	
 	protected function seleniumPort(): int
 	{
-		$port = parse_url(config('dawn.browser.url', 'http://localhost:9515'), PHP_URL_PORT);
+		$port = parse_url(config('dawn.browser_url', 'http://localhost:9515'), PHP_URL_PORT);
 		
 		if (is_numeric($port)) {
 			return (int) $port;
