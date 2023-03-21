@@ -23,6 +23,10 @@ class DawnServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->mergeConfigFrom(__DIR__.'/../../config/dawn.php', 'dawn');
+
+		if (! $this->app->runningUnitTests()) {
+			return;
+		}
 		
 		$this->app->singleton('dawn.loop', function() {
 			return Loop::get();
@@ -76,6 +80,11 @@ class DawnServiceProvider extends ServiceProvider
 	
 	public function boot()
 	{
+		$this->publishes(
+			[$this->packageConfigFile() => $this->app->configPath('dawn.php')],
+			['dawn', 'dawn-config']
+		);
+
 		Blade::directive('dawnTarget', function($expression) {
 			$attribute = config('dawn.target_attribute', 'data-dawn-target');
 			
@@ -114,5 +123,10 @@ class DawnServiceProvider extends ServiceProvider
 		}
 		
 		return 9515;
+	}
+
+	protected function packageConfigFile(): string
+	{
+		return  dirname(__DIR__, 2).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'dawn.php';
 	}
 }

@@ -4,7 +4,7 @@ namespace Glhd\Dawn\Browser;
 
 use Closure;
 use Facebook\WebDriver\Chrome\ChromeOptions;
-use Facebook\WebDriver\Exception\WebDriverCurlException;
+use Facebook\WebDriver\Exception\PhpWebDriverExceptionInterface;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverElement;
@@ -79,7 +79,7 @@ class BrowserManager
 	{
 		try {
 			return call_user_func($this->connector, $this);
-		} catch (WebDriverCurlException $exception) {
+		} catch (PhpWebDriverExceptionInterface $exception) {
 			// If we've already tried to auto-start, then just fail
 			if (! $autostart || $this->driver_process) {
 				throw new WebDriverNotRunningException($exception);
