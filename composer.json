@@ -19,8 +19,8 @@
     "ext-zip": "*",
     "illuminate/support": "9.*|10.*|dev-master",
     "nyholm/psr7": "^1.5",
-    "php-webdriver/webdriver": "^1.12",
-    "react/http": "^1.7",
+    "php-webdriver/webdriver": "^1.14",
+    "react/http": "^1.8",
     "symfony/psr-http-message-bridge": "^2.1"
   },
   "require-dev": {
@@ -34,8 +34,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Glhd\\Dawn\\": "src/",
-      "Laravel\\Dusk\\": "dusk/"
+      "Glhd\\Dawn\\": "src/"
     }
   },
   "autoload-dev": {
