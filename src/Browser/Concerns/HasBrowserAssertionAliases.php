@@ -29,12 +29,12 @@ trait HasBrowserAssertionAliases
 	
 	public function assertSee($text): static
 	{
-		return $this->assertSeeIn('', $text);
+		return $this->assertSeeIn(WebDriverBy::cssSelector('html'), $text);
 	}
 	
 	public function assertDontSee($text): static
 	{
-		return $this->assertDontSeeIn('', $text);
+		return $this->assertDontSeeIn(WebDriverBy::cssSelector('html'), $text);
 	}
 	
 	public function assertSeeLink($link): static
