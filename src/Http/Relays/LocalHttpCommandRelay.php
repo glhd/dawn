@@ -15,6 +15,7 @@ use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer as ReactHttpServer;
 use React\Http\Message\Response;
+use React\Http\Middleware\StreamingRequestMiddleware;
 use React\Promise\Promise;
 use React\Socket\SocketServer;
 use React\Stream\ReadableResourceStream;
@@ -69,7 +70,7 @@ class LocalHttpCommandRelay
 	{
 		$socket = new SocketServer("{$host}:{$port}", [], $loop);
 		
-		$http = new ReactHttpServer($loop, $this->handleRequest(...));
+		$http = new ReactHttpServer($loop, new StreamingRequestMiddleware(), $this->handleRequest(...));
 		$http->listen($socket);
 		
 		return $socket;
@@ -82,7 +83,7 @@ class LocalHttpCommandRelay
 			return $static_response;
 		}
 		
-		$this->sendCommand($message = new HandleWebRequest($psr_request));
+		$this->sendCommand($message = new HandleWebRequest($psr_request, $this->loop));
 		
 		return $this->deferredResponse($message->id);
 	}

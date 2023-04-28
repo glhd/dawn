@@ -41,38 +41,32 @@ class DawnServiceProvider extends ServiceProvider
 			};
 		});
 		
-		$this->app->singleton(WebServerBroker::class, function() {
-			return new WebServerBroker(
-				host: config('dawn.server_host', '127.0.0.1'),
-				port: config('dawn.server_port') ?? $this->findOpenPort(),
-			);
+		$this->app->bind(WebServerBroker::class, function(Container $app) {
+			return $app->make(ProcessManager::class)->web_server;
 		});
 		
-		$this->app->singleton(RemoteWebDriverBroker::class, function() {
-			return new RemoteWebDriverBroker(config('dawn.browser_url', 'http://localhost:9515'));
+		$this->app->bind(RemoteWebDriverBroker::class, function(Container $app) {
+			return $app->make(ProcessManager::class)->remote_web_driver;
 		});
 		
 		$this->app->singleton(SeleniumDriverProcess::class, function() {
 			return new SeleniumDriverProcess(port: $this->seleniumPort());
 		});
 		
-		$this->app->singleton(ProcessManager::class, function(Container $app) {
-			return new ProcessManager(
-				remote_web_driver: $app->make(RemoteWebDriverBroker::class),
-				web_server: $app->make(WebServerBroker::class),
-			);
+		$this->app->bind(ProcessManager::class, function() {
+			// Under the hood, Dawn manages its own singleton instance so that the same
+			// processes can be shared across multiple tests. We pass the current Dawn
+			// config in each time to ensure that if config values have been changed
+			// dynamically, new processes can be spawned.
+			return ProcessManager::getInstance(config('dawn'));
 		});
 		
 		$this->app->bind(Browser::class, function(Container $app) {
 			// When we ask for a browser, we want all background processes running,
 			// so we'll load up the full process manager (even though the browser
-			// only really cares about the webdriver process). We'll do this thru
-			// an internal singleton, so that the processes run across all tests,
-			// regardless of the number of times the application is bootstrapped
-			$pm = ProcessManager::getInstance();
-			
+			// only really cares about the webdriver process).
 			return new Browser(
-				broker: $pm->remote_web_driver,
+				broker: $app->make(ProcessManager::class)->remote_web_driver,
 				loop: $app->make('dawn.loop'),
 			);
 		});
@@ -102,16 +96,6 @@ class DawnServiceProvider extends ServiceProvider
 				ServeCommand::class,
 			]);
 		}
-	}
-	
-	protected function findOpenPort(): int
-	{
-		$sock = socket_create_listen(0);
-		
-		socket_getsockname($sock, $addr, $port);
-		socket_close($sock);
-		
-		return $port;
 	}
 	
 	protected function seleniumPort(): int

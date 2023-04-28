@@ -37,7 +37,7 @@ class Visit extends BrowserCommand
 		
 		$parts = array_merge(
 			parse_url($this->url),
-			parse_url(ProcessManager::getInstance()->web_server->url()),
+			parse_url(app(WebServerBroker::class)->url()),
 		);
 		
 		$this->url = $this->rebuildUrl($parts);
