@@ -2,11 +2,9 @@
 
 namespace Glhd\Dawn\Support;
 
-use ErrorException;
 use Glhd\Dawn\Concerns\SendsAndReceivesCommands;
 use Glhd\Dawn\IO\Command;
 use Glhd\Dawn\IO\CommandIO;
-use Illuminate\Support\Facades\App;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Stream\DuplexStreamInterface;

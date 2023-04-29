@@ -4,7 +4,6 @@ namespace Glhd\Dawn\Browser\Commands;
 
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Http\WebServerBroker;
-use Glhd\Dawn\Support\ProcessManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;

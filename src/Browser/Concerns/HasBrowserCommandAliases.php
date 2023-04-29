@@ -12,7 +12,6 @@ use Glhd\Dawn\Browser\Commands\Concerns\NormalizesStoragePaths;
 use Glhd\Dawn\Browser\Helpers\Livewire;
 use Glhd\Dawn\Browser\Helpers\Vue;
 use Glhd\Dawn\Support\Selector;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Js;
 use Illuminate\Support\Str;
 use InvalidArgumentException;

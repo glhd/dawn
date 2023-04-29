@@ -28,7 +28,7 @@ abstract class TestCase extends Orchestra
 		
 		// This tricks the `testbench` CLI to have access to the correct autoloader
 		$vendor_dir = dirname(base_path()).'/vendor';
-		if (!file_exists($vendor_dir)) {
+		if (! file_exists($vendor_dir)) {
 			symlink(dirname(__DIR__).'/vendor', $vendor_dir);
 		}
 	}

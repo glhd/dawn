@@ -12,7 +12,6 @@ use Glhd\Dawn\Http\WebServerBroker;
 use Glhd\Dawn\Support\Debugger;
 use Glhd\Dawn\Support\ProcessManager;
 use Illuminate\Container\Container;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
