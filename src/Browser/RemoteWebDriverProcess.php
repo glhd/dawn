@@ -39,6 +39,6 @@ class RemoteWebDriverProcess extends BackgroundProcess
 	{
 		$this->sendNotice('Stopping web driver server...');
 		
-		$this->browser_manager->quitAll();
+		$this->browser_manager->stop();
 	}
 }

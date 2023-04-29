@@ -12,8 +12,8 @@ use Glhd\Dawn\Http\WebServerBroker;
 use Glhd\Dawn\Support\Debugger;
 use Glhd\Dawn\Support\ProcessManager;
 use Illuminate\Container\Container;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use React\EventLoop\Loop;
 
@@ -21,7 +21,7 @@ class DawnServiceProvider extends ServiceProvider
 {
 	public function register()
 	{
-		$this->mergeConfigFrom(__DIR__.'/../../config/dawn.php', 'dawn');
+		$this->mergeConfigFrom($this->packageConfigFile(), 'dawn');
 
 		if (! $this->app->runningUnitTests()) {
 			return;
@@ -35,42 +35,37 @@ class DawnServiceProvider extends ServiceProvider
 			return match (config('dawn.debugger')) {
 				'dump' => new Debugger(fn($message) => dump($message)),
 				'ray' => new Debugger(fn($message) => ray($message)),
+				'log' => new Debugger(fn($message) => Log::debug($message)),
 				default => new Debugger(),
 			};
 		});
 		
-		$this->app->singleton(WebServerBroker::class, function() {
-			return new WebServerBroker(
-				host: config('dawn.server.host', '127.0.0.1'),
-				port: config('dawn.server.port') ?? $this->findOpenPort(),
-			);
+		$this->app->bind(WebServerBroker::class, function(Container $app) {
+			return $app->make(ProcessManager::class)->web_server;
 		});
 		
-		$this->app->singleton(RemoteWebDriverBroker::class, function() {
-			return new RemoteWebDriverBroker(config('dawn.browser.url', 'http://localhost:9515'));
+		$this->app->bind(RemoteWebDriverBroker::class, function(Container $app) {
+			return $app->make(ProcessManager::class)->remote_web_driver;
 		});
 		
 		$this->app->singleton(SeleniumDriverProcess::class, function() {
 			return new SeleniumDriverProcess(port: $this->seleniumPort());
 		});
 		
-		$this->app->singleton(ProcessManager::class, function(Container $app) {
-			return new ProcessManager(
-				remote_web_driver: $app->make(RemoteWebDriverBroker::class),
-				web_server: $app->make(WebServerBroker::class),
-			);
+		$this->app->bind(ProcessManager::class, function() {
+			// Under the hood, Dawn manages its own singleton instance so that the same
+			// processes can be shared across multiple tests. We pass the current Dawn
+			// config in each time to ensure that if config values have been changed
+			// dynamically, new processes can be spawned.
+			return ProcessManager::getInstance(config('dawn'));
 		});
 		
 		$this->app->bind(Browser::class, function(Container $app) {
 			// When we ask for a browser, we want all background processes running,
 			// so we'll load up the full process manager (even though the browser
-			// only really cares about the webdriver process). We'll do this thru
-			// an internal singleton, so that the processes run across all tests,
-			// regardless of the number of times the application is bootstrapped
-			$pm = ProcessManager::getInstance();
-			
+			// only really cares about the webdriver process).
 			return new Browser(
-				broker: $pm->remote_web_driver,
+				broker: $app->make(ProcessManager::class)->remote_web_driver,
 				loop: $app->make('dawn.loop'),
 			);
 		});
@@ -84,9 +79,13 @@ class DawnServiceProvider extends ServiceProvider
 		);
 
 		Blade::directive('dawnTarget', function($expression) {
-			return App::runningUnitTests()
-				? '<?php echo \' data-dawn-target="\'.e((string) '.$expression.').\'" \'; ?>'
-				: '';
+			$attribute = config('dawn.target_attribute', 'data-dawn-target');
+			
+			if (empty($attribute)) {
+				return '';
+			}
+			
+			return '<?php echo \' '.$attribute.'="\'.e((string) '.$expression.').\'" \'; ?>';
 		});
 		
 		if ($this->app->runningInConsole() || $this->app->runningUnitTests()) {
@@ -98,19 +97,9 @@ class DawnServiceProvider extends ServiceProvider
 		}
 	}
 	
-	protected function findOpenPort(): int
-	{
-		$sock = socket_create_listen(0);
-		
-		socket_getsockname($sock, $addr, $port);
-		socket_close($sock);
-		
-		return $port;
-	}
-	
 	protected function seleniumPort(): int
 	{
-		$port = parse_url(config('dawn.browser.url', 'http://localhost:9515'), PHP_URL_PORT);
+		$port = parse_url(config('dawn.browser_url', 'http://localhost:9515'), PHP_URL_PORT);
 		
 		if (is_numeric($port)) {
 			return (int) $port;
@@ -121,6 +110,6 @@ class DawnServiceProvider extends ServiceProvider
 
 	protected function packageConfigFile(): string
 	{
-		return  dirname(__DIR__, 2).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'dawn.php';
+		return __DIR__.'/../../config/dawn.php';
 	}
 }

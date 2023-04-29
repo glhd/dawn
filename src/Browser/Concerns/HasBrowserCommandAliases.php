@@ -8,10 +8,10 @@ use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Glhd\Dawn\Browser;
 use Glhd\Dawn\Browser\BrowserManager;
+use Glhd\Dawn\Browser\Commands\Concerns\NormalizesStoragePaths;
 use Glhd\Dawn\Browser\Helpers\Livewire;
 use Glhd\Dawn\Browser\Helpers\Vue;
 use Glhd\Dawn\Support\Selector;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Js;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -19,6 +19,8 @@ use stdClass;
 
 trait HasBrowserCommandAliases
 {
+	use NormalizesStoragePaths;
+	
 	public function clickLink(string $text, bool $wait = false): static
 	{
 		return $this->click(WebDriverBy::linkText($text), wait: $wait);
@@ -370,10 +372,7 @@ trait HasBrowserCommandAliases
 	
 	public function screenshot(string $name): static
 	{
-		// TODO:
-		// Browser::$storeScreenshotsAt = base_path('tests/Browser/screenshots');
-		
-		return $this->takeScreenshot(base_path("tests/Browser/screenshots/{$name}.png"));
+		return $this->takeScreenshot(Str::finish($name, '.png'));
 	}
 	
 	public function responsiveScreenshots(string $name): static
@@ -419,21 +418,18 @@ trait HasBrowserCommandAliases
 	
 	public function storeConsoleLog(string $name): static
 	{
-		// TODO: $storeConsoleLogAt
-		return $this->getLog(base_path("tests/Browser/console/{$name}.log"));
+		return $this->getLog("{$name}.log");
 	}
 	
 	public function storeSource(string $name): static
 	{
-		// TODO: 
-		// Browser::$storeSourceAt = base_path('tests/Browser/source');
-		
 		if (! empty($source = $this->getPageSource())) {
-			$fs = new Filesystem();
-			$path = base_path("tests/Browser/source/{$name}.txt");
+			$filename = $this->prepareAndNormalizeStoragePath(
+				filename: "{$name}.txt",
+				directory: config('dawn.storage_sources', resource_path('dawn/sources')),
+			);
 			
-			$fs->ensureDirectoryExists(dirname($path));
-			$fs->put($path, $source);
+			file_put_contents($filename, $source);
 		}
 		
 		return $this;

@@ -12,6 +12,7 @@ use React\Stream\ThroughStream;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Throwable;
 
 abstract class Broker
 {
@@ -67,7 +68,11 @@ abstract class Broker
 	
 	protected function flushIncomingMessageStream(): void
 	{
-		$this->process_output->write($this->process->getIncrementalOutput());
+		try {
+			$this->process_output->write(@$this->process->getIncrementalOutput());
+		} catch (Throwable $exception) {
+			dd($exception);
+		}
 	}
 	
 	protected function artisan(array $arguments, InputStream $stdin): Process

@@ -25,6 +25,12 @@ abstract class TestCase extends Orchestra
 		
 		// This forces the testbench binary to load our service provider on the CLI
 		file_put_contents(base_path('testbench.yaml'), "providers:\n  - ".DawnServiceProvider::class);
+		
+		// This tricks the `testbench` CLI to have access to the correct autoloader
+		$vendor_dir = dirname(base_path()).'/vendor';
+		if (! file_exists($vendor_dir)) {
+			symlink(dirname(__DIR__).'/vendor', $vendor_dir);
+		}
 	}
 	
 	protected function tearDown(): void

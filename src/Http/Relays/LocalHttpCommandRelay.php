@@ -15,6 +15,10 @@ use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer as ReactHttpServer;
 use React\Http\Message\Response;
+use React\Http\Middleware\LimitConcurrentRequestsMiddleware;
+use React\Http\Middleware\RequestBodyBufferMiddleware;
+use React\Http\Middleware\RequestBodyParserMiddleware;
+use React\Http\Middleware\StreamingRequestMiddleware;
 use React\Promise\Promise;
 use React\Socket\SocketServer;
 use React\Stream\ReadableResourceStream;
@@ -69,8 +73,20 @@ class LocalHttpCommandRelay
 	{
 		$socket = new SocketServer("{$host}:{$port}", [], $loop);
 		
-		$http = new ReactHttpServer($loop, $this->handleRequest(...));
+		$http = new ReactHttpServer(
+			$loop,
+			new StreamingRequestMiddleware(),
+			new LimitConcurrentRequestsMiddleware(100),
+			new RequestBodyBufferMiddleware(32 * 1024 * 1024), // 32 MB
+			new RequestBodyParserMiddleware(32 * 1024 * 1024, 100), // 32 MB (these maybe need to be configurable)
+			$this->handleRequest(...)
+		);
+		
 		$http->listen($socket);
+		
+		$http->on('error', function(Exception $exception) {
+			echo $exception->getMessage().PHP_EOL;
+		});
 		
 		return $socket;
 	}
@@ -150,7 +166,7 @@ class LocalHttpCommandRelay
 	{
 		$exception ??= new Exception('Internal error');
 		
-		return Response::plaintext((string) $exception)
+		return Response::plaintext($exception->getMessage()."\n".$exception->getTraceAsString())
 			->withStatus(Response::STATUS_INTERNAL_SERVER_ERROR);
 	}
 }

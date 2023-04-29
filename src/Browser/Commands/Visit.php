@@ -4,7 +4,6 @@ namespace Glhd\Dawn\Browser\Commands;
 
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Http\WebServerBroker;
-use Glhd\Dawn\Support\ProcessManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +36,7 @@ class Visit extends BrowserCommand
 		
 		$parts = array_merge(
 			parse_url($this->url),
-			parse_url(ProcessManager::getInstance()->web_server->url()),
+			parse_url(app(WebServerBroker::class)->url()),
 		);
 		
 		$this->url = $this->rebuildUrl($parts);

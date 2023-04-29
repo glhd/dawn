@@ -68,7 +68,7 @@ class Browser
 		}
 		
 		// Unfortunately, because of the I/O channel, the driver/resolver/page aren't available
-		// inside the main process. I'm not sure if there's a solution for that… 
+		// inside the main process. I'm not sure if there's a solution for that…
 		
 		\Psy\Shell::debug([
 			'browser' => $this,
