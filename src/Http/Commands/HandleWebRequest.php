@@ -5,34 +5,35 @@ namespace Glhd\Dawn\Http\Commands;
 use Glhd\Dawn\Http\Commands\SendWebResponse as ResponseMessage;
 use Glhd\Dawn\Http\WebServerBroker;
 use Glhd\Dawn\IO\Command;
-use Glhd\Dawn\Support\CachedBodyStream;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ServerRequestInterface;
-use React\EventLoop\LoopInterface;
-use React\Promise\Promise;
+use Psr\Http\Message\UploadedFileInterface;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Throwable;
 
 class HandleWebRequest extends Command
 {
-	public function __construct(
-		public ServerRequestInterface $request,
-		LoopInterface $loop
-	) {
+	public array $files = [];
+	
+	public function __construct(public ServerRequestInterface $request)
+	{
 		$this->id ??= (string) Str::uuid();
 		
-		$this->saveBodyToFilesystem($loop);
+		// Passing large uploads over the I/O channel can lead to memory issues. This just
+		// puts the file in a temp location and then restores it on the other side.
+		$this->saveFilesToFilesystem();
 	}
 	
 	public function execute(WebServerBroker $broker)
 	{
 		try {
 			$request = Request::createFromBase((new HttpFoundationFactory())->createRequest($this->request));
+			
+			$request->files->replace($this->getFilesFromFilesystem());
 			
 			$response = $this->runRequestThroughKernel($request);
 			
@@ -48,37 +49,61 @@ class HandleWebRequest extends Command
 		}
 	}
 	
-	protected function saveBodyToFilesystem(LoopInterface $loop): void
+	protected function getFilesFromFilesystem(): array
 	{
-		$body = $this->request->getBody();
-		$size = $body->getSize();
+		return collect($this->files)
+			->map(function(array $data) {
+				return new UploadedFile(
+					$data['path'],
+					$data['original_filename'],
+					$data['mime'],
+					$data['error'],
+				);
+			})
+			->all();
+	}
+	
+	protected function saveFilesToFilesystem(): void
+	{
+		$this->files = collect($this->request->getUploadedFiles())
+			->map($this->saveFileToFilesystem(...))
+			->all();
 		
-		if ($size < 250) {
-			return;
+		$this->request = $this->request->withUploadedFiles([]);
+	}
+	
+	protected function saveFileToFilesystem(UploadedFileInterface $file): array
+	{
+		if ($file->getError()) {
+			return [
+				'path' => '',
+				'original_filename' => $file->getClientFilename(),
+				'mime' => $file->getClientMediaType(),
+				'error' => $file->getError(),
+			];
 		}
 		
-		$filename = tempnam(sys_get_temp_dir(), 'dawn');
-		$handle = fopen($filename, 'w+');
+		$stream = $file->getStream();
+		$destination = tempnam(sys_get_temp_dir(), 'dawn');
 		
-		$this->request = $this->request->withBody(new CachedBodyStream($filename));
-		
-		$body->on('data', function($data) use (&$handle) {
-			fwrite($handle, $data);
-		});
-		
-		$body->on('end', function() use ($loop, $filename, &$handle) {
-			fclose($handle);
-			$handle = null;
-			$loop->stop();
-		});
-		
-		$body->on('error', function(Throwable $e) {
-			throw $e;
-		});
-		
-		while($handle) {
-			$loop->run();
+		if ($stream->isSeekable()) {
+			$stream->rewind();
 		}
+		
+		$handle = fopen($destination, 'w');
+		
+		while (! $stream->eof()) {
+			fwrite($handle, $stream->read(1048576));
+		}
+		
+		fclose($handle);
+		
+		return [
+			'path' => $destination,
+			'original_filename' => $file->getClientFilename(),
+			'mime' => $file->getClientMediaType(),
+			'error' => UPLOAD_ERR_OK,
+		];
 	}
 	
 	protected function runRequestThroughKernel(Request $request): Response
