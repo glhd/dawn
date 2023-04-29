@@ -2,10 +2,7 @@
 
 namespace Glhd\Dawn\Browser\Commands\Concerns;
 
-use BadMethodCallException;
-use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 
 trait NormalizesStoragePaths
 {

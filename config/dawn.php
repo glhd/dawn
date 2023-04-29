@@ -45,7 +45,7 @@ return [
 	|
 	| Configure the attribute Dawn uses for @dawnTarget() calls. This is useful
 	| if you have other code that depends on `dusk=` attributes, or you want
-	| to re-use targets for other systems, like `data-intercom-target` for 
+	| to re-use targets for other systems, like `data-intercom-target` for
 	| Intercom product tours, or `data-cy` or `data-testid` for Cypress tests.
 	|
 	*/
@@ -57,7 +57,7 @@ return [
 	|--------------------------------------------------------------------------
 	|
 	| Available debuggers: null (no debugging), 'dump' (dump debug messages to
-	| standard output), 'log' (send messages to debug log), or 'ray' (send 
+	| standard output), 'log' (send messages to debug log), or 'ray' (send
 	| debug messages to Ray <https://myray.app>).
 	|
 	*/

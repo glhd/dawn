@@ -5,6 +5,7 @@ namespace Glhd\Dawn\Support;
 use Illuminate\Support\Collection;
 use React\EventLoop\LoopInterface;
 use RuntimeException;
+use Throwable;
 
 class ResponseQueue
 {
@@ -45,6 +46,12 @@ class ResponseQueue
 			$this->loop->run();
 		}
 		
-		return $this->queue->pull($request_id);
+		$response = $this->queue->pull($request_id);
+		
+		if ($response instanceof Throwable) {
+			throw $response;
+		}
+		
+		return $response;
 	}
 }

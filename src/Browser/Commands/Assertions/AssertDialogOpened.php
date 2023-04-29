@@ -3,7 +3,6 @@
 namespace Glhd\Dawn\Browser\Commands\Assertions;
 
 use Facebook\WebDriver\Exception\NoSuchAlertException;
-use Facebook\WebDriver\WebDriverExpectedCondition;
 use Glhd\Dawn\Browser\BrowserManager;
 use Glhd\Dawn\Browser\RemoteWebDriverBroker;
 use PHPUnit\Framework\Assert;
