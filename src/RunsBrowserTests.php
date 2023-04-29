@@ -2,6 +2,8 @@
 
 namespace Glhd\Dawn;
 
+use Glhd\Dawn\Http\WebServerBroker;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Collection;
 
 trait RunsBrowserTests
@@ -18,6 +20,10 @@ trait RunsBrowserTests
 	protected function setUpRunsBrowserTests(): void
 	{
 		$this->browsers = new Collection();
+		
+		// We want URLs in Dawn tests to go thru the Dawn proxy
+		app(UrlGenerator::class)
+			->forceRootUrl(app(WebServerBroker::class)->url());
 	}
 	
 	protected function tearDownRunsBrowserTests(): void
